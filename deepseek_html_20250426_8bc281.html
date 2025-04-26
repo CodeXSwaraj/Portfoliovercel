@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swaraj Patil - CodeInnings Portfolio</title>
+    <style>
+        :root {
+            --kohli-blue: #004687;
+            --gold: #FFD700;
+            --pitch-green: #2D5E3A;
+            --white: #FFFFFF;
+            --text-dark: #333333;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Barlow Condensed', sans-serif;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(rgba(0, 70, 135, 0.9), rgba(0, 70, 135, 0.8)), 
+                        url('https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            color: var(--white);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .hero-content h2 {
+            font-size: 1.8rem;
+            color: var(--gold);
+            font-weight: 300;
+            margin-bottom: 30px;
+        }
+
+        .stumps-decoration {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 200px;
+        }
+
+        .stump {
+            width: 30px;
+            height: 150px;
+            background-color: var(--white);
+            position: relative;
+        }
+
+        .stump::before {
+            content: '</>';
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2rem;
+            color: var(--gold);
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: var(--kohli-blue);
+            padding: 20px 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        nav a {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 1.2rem;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: var(--gold);
+            color: var(--kohli-blue);
+        }
+
+        /* Skills Section */
+        .skills-section {
+            padding: 100px 20px;
+            background-color: var(--white);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 50px;
+            color: var(--kohli-blue);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background-color: var(--gold);
+        }
+
+        .skills-scorecard {
+            max-width: 800px;
+            margin: 0 auto;
+            border: 2px solid var(--kohli-blue);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .scorecard-header {
+            background-color: var(--kohli-blue);
+            color: var(--white);
+            padding: 15px;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .scorecard-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            align-items: center;
+        }
+
+        .skill-bar {
+            height: 20px;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .skill-progress {
+            height: 100%;
+            background-color: var(--pitch-green);
+            border-radius: 10px;
+        }
+
+        /* Projects Section */
+        .projects-section {
+            padding: 100px 20px;
+            background-color: #f5f5f5;
+        }
+
+        .projects-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .project-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .project-card.helmet {
+            border-top: 5px solid var(--kohli-blue);
+        }
+
+        .project-card.glove {
+            border-top: 5px solid var(--gold);
+        }
+
+        .project-image {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .project-details {
+            padding: 20px;
+        }
+
+        .project-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--kohli-blue);
+        }
+
+        .project-highlights {
+            margin-bottom: 15px;
+        }
+
+        .project-highlights li {
+            margin-bottom: 5px;
+            list-style-type: none;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .project-highlights li::before {
+            content: '🏏';
+            position: absolute;
+            left: 0;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .tech-item {
+            background-color: var(--pitch-green);
+            color: var(--white);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            padding: 100px 20px;
+            background-color: var(--kohli-blue);
+            color: var(--white);
+            text-align: center;
+        }
+
+        .contact-cta {
+            font-size: 2rem;
+            margin-bottom: 30px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .social-link {
+            font-size: 2rem;
+            color: var(--white);
+            transition: transform 0.3s ease;
+        }
+
+        .social-link:hover {
+            transform: scale(1.2);
+            color: var(--gold);
+        }
+
+        /* Animations */
+        @keyframes batSwing {
+            0% { transform: rotate(0deg); }
+            50% { transform: rotate(30deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        .bat-animation {
+            animation: batSwing 1s infinite;
+            display: inline-block;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-content h2 {
+                font-size: 1.2rem;
+            }
+            
+            .scorecard-header, .scorecard-row {
+                grid-template-columns: 2fr 1fr 1fr;
+            }
+            
+            .scorecard-header span:last-child, 
+            .scorecard-row span:last-child {
+                display: none;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+    <header id="home">
+        <div class="hero-content">
+            <h1>Swaraj Patil</h1>
+            <h2>Playing a Long Innings in AI & Innovation</h2>
+            <p style="color: var(--white); font-size: 1.2rem; max-width: 800px; margin: 0 auto;">
+                "I hate losing, and I believe the steps I take are for winning." <br>- <strong>Virat Kohli</strong>
+            </p>
+        </div>
+        <div class="stumps-decoration">
+            <div class="stump"></div>
+            <div class="stump"></div>
+            <div class="stump"></div>
+        </div>
+    </header>
+
+    <section class="skills-section" id="skills">
+        <h2 class="section-title">Technical Skills Scorecard</h2>
+        <div class="skills-scorecard">
+            <div class="scorecard-header">
+                <span>TECHNICAL SKILLS</span>
+                <span>R</span>
+                <span>4s</span>
+                <span>6s</span>
+            </div>
+            <div class="scorecard-row">
+                <span>Python (Advanced)</span>
+                <div class="skill-bar">
+                    <div class="skill-progress" style="width: 90%;"></div>
+                </div>
+                <span>12</span>
+                <span>8</span>
+            </div>
+            <div class="scorecard-row">
+                <span>AI/ML</span>
+                <div class="skill-bar">
+                    <div class="skill-progress" style="width: 80%;"></div>
+                </div>
+                <span>10</span>
+                <span>5</span>
+            </div>
+            <div class="scorecard-row">
+                <span>Databases</span>
+                <div class="skill-bar">
+                    <div class="skill-progress" style="width: 75%;"></div>
+                </div>
+                <span>8</span>
+                <span>3</span>
+            </div>
+            <div class="scorecard-row">
+                <span>Web Development</span>
+                <div class="skill-bar">
+                    <div class="skill-progress" style="width: 70%;"></div>
+                </div>
+                <span>7</span>
+                <span>2</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="projects-section" id="projects">
+        <h2 class="section-title">Project Highlights</h2>
+        <div class="projects-container">
+            <div class="project-card helmet">
+                <div class="project-image" style="background-image: url('https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+                <div class="project-details">
+                    <h3 class="project-title">Vision AI</h3>
+                    <p>Interactive Perception System</p>
+                    <ul class="project-highlights">
+                        <li>90% Accuracy in Object Detection</li>
+                        <li>Real-time Processing</li>
+                        <li>Low-resource Optimization</li>
+                    </ul>
+                    <div class="tech-stack">
+                        <span class="tech-item">Python</span>
+                        <span class="tech-item">OpenCV</span>
+                        <span class="tech-item">Raspberry Pi</span>
+                    </div>
+                </div>
+            </div>
+            <div class="project-card glove">
+                <div class="project-image" style="background-image: url('https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+                <div class="project-details">
+                    <h3 class="project-title">Writer's Co-Pilot</h3>
+                    <p>AI-Powered Writing Assistant</p>
+                    <ul class="project-highlights">
+                        <li>90% Suggestion Accuracy</li>
+                        <li>Contextual Corrections</li>
+                        <li>30% Stability Improvement</li>
+                    </ul>
+                    <div class="tech-stack">
+                        <span class="tech-item">Python</span>
+                        <span class="tech-item">NLP</span>
+                        <span class="tech-item">Transformers</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-section" id="contact">
+        <h2 class="section-title" style="color: var(--white);">Let's Hit a Collaboration Sixer!</h2>
+        <p class="contact-cta">Ready to partner on the next big project? <span class="bat-animation">🏏</span></p>
+        <div class="social-links">
+            <a href="https://www.linkedin.com/in/swarajpatil18/" class="social-link" title="LinkedIn">🏏</a>
+            <a href="https://github.com/CodeXSwaraj" class="social-link" title="GitHub">🎯</a>
+            <a href="mailto:ai.57.swaraj.patil@gmail.com" class="social-link" title="Email">✉️</a>
+        </div>
+    </section>
+
+    <script>
+        // Simple animation trigger on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('section');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            sections.forEach(section => {
+                section.style.opacity = 0;
+                section.style.transform = 'translateY(20px)';
+                section.style.transition = 'all 0.6s ease-out';
+                observer.observe(section);
+            });
+            
+            // Kohli quote rotator
+            const quotes = [
+                "I like to be myself, and I don't pretend. For instance, I don't dress up for occasions; I am what I am.",
+                "Self-belief and hard work will always earn you success.",
+                "I know what my strengths are and I know what I need to work on."
+            ];
+            
+            setInterval(() => {
+                const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+                document.querySelector('header p').innerHTML = `"${randomQuote}" <br>- <strong>Virat Kohli</strong>`;
+            }, 8000);
+        });
+    </script>
+</body>
+</html>
