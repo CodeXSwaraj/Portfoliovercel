@@ -3,473 +3,2788 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Swaraj Patil - CodeInnings Portfolio</title>
+    <title>Swaraj Patil - Cyber Portfolio</title>
     <style>
-        :root {
-            --kohli-blue: #004687;
-            --gold: #FFD700;
-            --pitch-green: #2D5E3A;
-            --white: #FFFFFF;
-            --text-dark: #333333;
-        }
-
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap');
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Barlow Condensed', sans-serif;
         }
-
+        
         body {
-            background-color: #f9f9f9;
-            color: var(--text-dark);
-            overflow-x: hidden;
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            min-height: 100vh;
+            font-family: 'Share Tech Mono', monospace;
+            color: #00ff41;
+            overflow-x: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
         }
-
-        /* Header Styles */
-        header {
-            background: linear-gradient(rgba(0, 70, 135, 0.9), rgba(0, 70, 135, 0.8)), 
-                        url('https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1600&q=80');
-            background-size: cover;
-            background-position: center;
-            height: 100vh;
+        
+        .tv-container {
+            width: 900px;
+            height: 650px;
+            background: linear-gradient(145deg, #2c2c2c, #1a1a1a);
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: 
+                0 0 50px rgba(0, 255, 65, 0.3),
+                inset 0 2px 10px rgba(255, 255, 255, 0.1),
+                inset 0 -2px 10px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+        
+        .tv-container::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 8px;
+            background: linear-gradient(90deg, #444, #666, #444);
+            border-radius: 4px;
+        }
+        
+        .screen {
+            width: 100%;
+            height: 500px;
+            background: #000;
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+            border: 3px solid #333;
+            box-shadow: inset 0 0 20px rgba(0, 255, 65, 0.2);
+        }
+        
+        .screen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 255, 65, 0.03) 2px,
+                rgba(0, 255, 65, 0.03) 4px
+            );
+            pointer-events: none;
+            z-index: 10;
+        }
+        
+        .content {
+            padding: 30px;
+            height: 100%;
+            position: relative;
+            z-index: 5;
+            overflow-y: auto;
+        }
+        
+        .static-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle, transparent 40%, rgba(0, 255, 65, 0.05) 100%);
+            pointer-events: none;
+            z-index: 8;
+        }
+        
+        .channel-display {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            border: 1px solid #00ff41;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding: 0 20px;
+        }
+        
+        .channel-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .channel-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #3a3a3a, #2a2a2a);
+            border: 2px solid #555;
+            color: #00ff41;
+            font-family: 'Orbitron', monospace;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .channel-btn:hover {
+            background: linear-gradient(145deg, #4a4a4a, #3a3a3a);
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.5);
+            transform: scale(1.05);
+        }
+        
+        .channel-btn.active {
+            background: linear-gradient(145deg, #00ff41, #00cc33);
+            color: #000;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.8);
+        }
+        
+        .power-indicator {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #00ff41;
+            box-shadow: 0 0 10px rgba(0, 255, 65, 0.8);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+        
+        .channel-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        .channel-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-family: 'Orbitron', monospace;
+            font-size: 2.5em;
+            font-weight: 900;
+            text-shadow: 0 0 20px rgba(0, 255, 65, 0.8);
+            margin-bottom: 10px;
+        }
+        
+        .header .subtitle {
+            font-size: 1.2em;
+            opacity: 0.8;
+        }
+        
+        .section {
+            margin-bottom: 25px;
+        }
+        
+        .section h2 {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: #00ff41;
+            text-shadow: 0 0 10px rgba(0, 255, 65, 0.6);
+        }
+        
+        .project-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .project-card {
+            background: rgba(0, 255, 65, 0.1);
+            border: 1px solid #00ff41;
+            border-radius: 8px;
+            padding: 15px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .project-card:hover {
+            background: rgba(0, 255, 65, 0.2);
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .project-card h3 {
+            font-size: 1.1em;
+            margin-bottom: 8px;
+            color: #00ff41;
+        }
+        
+        .project-card p {
+            font-size: 0.9em;
+            opacity: 0.8;
+            line-height: 1.4;
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        
+        .skill-tag {
+            background: rgba(0, 255, 65, 0.2);
+            border: 1px solid #00ff41;
+            border-radius: 20px;
+            padding: 8px 15px;
+            text-align: center;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+        }
+        
+        .skill-tag:hover {
+            background: rgba(0, 255, 65, 0.3);
+            transform: scale(1.05);
+        }
+        
+        .contact-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: rgba(0, 255, 65, 0.1);
+            border-radius: 5px;
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .contact-item:hover {
+            background: rgba(0, 255, 65, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .glitch {
+            animation: glitch 3s infinite;
+        }
+        
+        @keyframes glitch {
+            0%, 90%, 100% { transform: translate(0); }
+            92% { transform: translate(-1px, -1px); }
+            94% { transform: translate(1px, 1px); }
+            96% { transform: translate(-1px, 1px); }
+            98% { transform: translate(1px, -1px); }
+        }
+        
+        .typing::after {
+            content: '|';
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+        
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 255, 65, 0.5);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 255, 65, 0.8);
+        }
+        
+        .boot-sequence {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #000;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            z-index: 20;
+            animation: bootFade 3s ease-out forwards;
+        }
+        
+        @keyframes bootFade {
+            0%, 80% { opacity: 1; }
+            100% { opacity: 0; pointer-events: none; }
+        }
+        
+        .boot-text {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 1.2em;
             text-align: center;
-            padding: 0 20px;
-            position: relative;
+            line-height: 1.6;
         }
-
-        .hero-content h1 {
-            font-size: 4rem;
-            color: var(--white);
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 3px;
+        
+        /* Certificate Styles */
+        .certificate-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            max-height: 300px;
+            overflow-y: auto;
         }
-
-        .hero-content h2 {
-            font-size: 1.8rem;
-            color: var(--gold);
-            font-weight: 300;
-            margin-bottom: 30px;
+        
+        .certificate-card {
+            background: rgba(0, 255, 65, 0.1);
+            border: 1px solid #00ff41;
+            border-radius: 8px;
+            padding: 15px;
+            transition: all 0.3s ease;
+            cursor: pointer;
         }
-
-        .stumps-decoration {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            gap: 200px;
+        
+        .certificate-card:hover {
+            background: rgba(0, 255, 65, 0.2);
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.3);
+            transform: translateY(-2px);
         }
-
-        .stump {
-            width: 30px;
-            height: 150px;
-            background-color: var(--white);
-            position: relative;
+        
+        .certificate-card h3 {
+            font-size: 1em;
+            margin-bottom: 8px;
+            color: #00ff41;
         }
-
-        .stump::before {
-            content: '</>';
-            position: absolute;
-            top: -40px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 2rem;
-            color: var(--gold);
+        
+        .certificate-card p {
+            font-size: 0.8em;
+            opacity: 0.8;
+            line-height: 1.4;
         }
-
-        /* Navigation */
-        nav {
+        
+        .certificate-card .date {
+            font-size: 0.7em;
+            color: #00cc33;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
             position: fixed;
             top: 0;
+            left: 0;
             width: 100%;
-            background-color: var(--kohli-blue);
-            padding: 20px 0;
-            z-index: 1000;
-            display: flex;
-            justify-content: space-around;
-        }
-
-        nav a {
-            color: var(--white);
-            text-decoration: none;
-            font-size: 1.2rem;
-            padding: 10px 20px;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-        }
-
-        nav a:hover {
-            background-color: var(--gold);
-            color: var(--kohli-blue);
-        }
-
-        /* Skills Section */
-        .skills-section {
-            padding: 100px 20px;
-            background-color: var(--white);
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 3rem;
-            margin-bottom: 50px;
-            color: var(--kohli-blue);
-            position: relative;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 3px;
-            background-color: var(--gold);
-        }
-
-        .skills-scorecard {
-            max-width: 800px;
-            margin: 0 auto;
-            border: 2px solid var(--kohli-blue);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .scorecard-header {
-            background-color: var(--kohli-blue);
-            color: var(--white);
-            padding: 15px;
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
-            text-align: center;
-            font-weight: bold;
-        }
-
-        .scorecard-row {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
-            padding: 15px;
-            border-bottom: 1px solid #eee;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 100;
+            justify-content: center;
             align-items: center;
         }
-
-        .skill-bar {
-            height: 20px;
-            background-color: #e0e0e0;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .skill-progress {
-            height: 100%;
-            background-color: var(--pitch-green);
-            border-radius: 10px;
-        }
-
-        /* Projects Section */
-        .projects-section {
-            padding: 100px 20px;
-            background-color: #f5f5f5;
-        }
-
-        .projects-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .project-card {
-            background-color: var(--white);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
-        }
-
-        .project-card:hover {
-            transform: translateY(-10px);
-        }
-
-        .project-card.helmet {
-            border-top: 5px solid var(--kohli-blue);
-        }
-
-        .project-card.glove {
-            border-top: 5px solid var(--gold);
-        }
-
-        .project-image {
-            height: 200px;
-            background-size: cover;
-            background-position: center;
-        }
-
-        .project-details {
+        
+        .modal-content {
+            background: #1a1a1a;
             padding: 20px;
-        }
-
-        .project-title {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-            color: var(--kohli-blue);
-        }
-
-        .project-highlights {
-            margin-bottom: 15px;
-        }
-
-        .project-highlights li {
-            margin-bottom: 5px;
-            list-style-type: none;
+            border-radius: 10px;
+            border: 2px solid #00ff41;
+            max-width: 80%;
+            max-height: 80%;
+            overflow: auto;
             position: relative;
-            padding-left: 20px;
         }
-
-        .project-highlights li::before {
-            content: '🏏';
+        
+        .project-modal-content {
+            max-width: 800px;
+        }
+        
+        .close-modal {
             position: absolute;
-            left: 0;
+            top: 10px;
+            right: 10px;
+            color: #00ff41;
+            font-size: 24px;
+            cursor: pointer;
         }
-
-        .tech-stack {
+        
+        /* Project Details Styles */
+        .project-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .project-summary, .project-results {
+            background: rgba(0, 255, 65, 0.05);
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid rgba(0, 255, 65, 0.2);
+        }
+        
+        .project-summary h3, .project-results h3 {
+            color: #00ff41;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #00ff41;
+            padding-bottom: 5px;
+        }
+        
+        .project-technologies {
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
             margin-top: 15px;
         }
-
-        .tech-item {
-            background-color: var(--pitch-green);
-            color: var(--white);
+        
+        .tech-tag {
+            background: rgba(0, 255, 65, 0.1);
+            border: 1px solid #00ff41;
+            border-radius: 15px;
             padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
+            font-size: 0.8em;
+        }
+        
+        .project-links {
+            margin-top: 20px;
+        }
+        
+        .project-link {
+            display: inline-block;
+            margin-right: 15px;
+            color: #00ff41;
+            text-decoration: none;
+            border-bottom: 1px dashed #00ff41;
         }
 
-        /* Contact Section */
-        .contact-section {
-            padding: 100px 20px;
-            background-color: var(--kohli-blue);
-            color: var(--white);
+        /* Game Menu Styles */
+        .game-menu {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .game-option {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #00ff41;
+            border-radius: 5px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
             text-align: center;
         }
-
-        .contact-cta {
-            font-size: 2rem;
-            margin-bottom: 30px;
+        
+        .game-option:hover {
+            background: rgba(0, 255, 65, 0.1);
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.3);
         }
-
-        .social-links {
-            display: flex;
+        
+        /* Full-screen Game Container */
+        .game-screen {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 1000;
+            flex-direction: column;
             justify-content: center;
-            gap: 30px;
-            margin-top: 30px;
+            align-items: center;
+            padding: 20px;
         }
-
-        .social-link {
-            font-size: 2rem;
-            color: var(--white);
-            transition: transform 0.3s ease;
+        
+        .game-title {
+            color: #00ff41;
+            margin-bottom: 10px;
+            font-family: 'Orbitron', sans-serif;
+            text-align: center;
+            font-size: 1.5em;
         }
-
-        .social-link:hover {
-            transform: scale(1.2);
-            color: var(--gold);
+        
+        .game-canvas {
+            width: 100%;
+            height: 80vh;
+            max-width: 800px;
+            background: #000;
+            border: 2px solid #00cc33;
+            display: block;
+            margin: 0 auto;
         }
-
-        /* Animations */
-        @keyframes batSwing {
-            0% { transform: rotate(0deg); }
-            50% { transform: rotate(30deg); }
-            100% { transform: rotate(0deg); }
+        
+        .game-controls {
+            margin-top: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 800px;
         }
-
-        .bat-animation {
-            animation: batSwing 1s infinite;
-            display: inline-block;
+        
+        .game-btn {
+            background: rgba(0, 255, 65, 0.2);
+            border: 1px solid #00ff41;
+            color: #00ff41;
+            padding: 8px 15px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-family: 'Share Tech Mono', monospace;
         }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .hero-content h1 {
-                font-size: 2.5rem;
-            }
-            
-            .hero-content h2 {
-                font-size: 1.2rem;
-            }
-            
-            .scorecard-header, .scorecard-row {
-                grid-template-columns: 2fr 1fr 1fr;
-            }
-            
-            .scorecard-header span:last-child, 
-            .scorecard-row span:last-child {
-                display: none;
-            }
+        
+        .game-btn:hover {
+            background: rgba(0, 255, 65, 0.3);
+        }
+        
+        .score-display {
+            color: #00ff41;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 1.2em;
+        }
+        
+        .controls-info {
+            margin-top: 10px;
+            color: #00cc33;
+            font-size: 0.9em;
+            text-align: center;
+            width: 100%;
+            max-width: 800px;
+        }
+        
+        .back-btn {
+            margin-top: 15px;
+            text-align: center;
+            width: 100%;
+            max-width: 800px;
+        }
+        
+        /* Game-specific styles */
+        .player-info {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 10px;
         }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <nav>
-        <a href="#home">Home</a>
-        <a href="#skills">Skills</a>
-        <a href="#projects">Projects</a>
-        <a href="#contact">Contact</a>
-    </nav>
+    <div class="tv-container">
+        <div class="screen">
+            <div class="static-overlay"></div>
+            <div class="channel-display">CH: <span id="current-channel">01</span></div>
+            
+            <div class="boot-sequence" id="bootSequence">
+                <div class="boot-text">
+                    <div>INITIALIZING PORTFOLIO SYSTEM...</div>
+                    <div>LOADING USER: SWARAJ_PATIL</div>
+                    <div>BIRTH_YEAR: 2003 | LOCATION: THANE, INDIA</div>
+                    <div>STATUS: READY</div>
+                </div>
+            </div>
+            
+            <div class="content">
+                <!-- Channel 1: Home -->
+                <div class="channel-content active" id="channel1">
+                    <div class="header">
+                        <h1 class="glitch">SWARAJ PATIL</h1>
+                        <div class="subtitle typing">AI & Data Science Developer | @CodeXSwaraj</div>
+                    </div>
+                    <div class="section">
+                        <h2>&gt; About Me</h2>
+                        <p>Detail-oriented developer with a commitment to coding excellence and a continuous desire to explore and integrate new technologies. Specializing in AI, Data Science, and innovative software solutions.</p>
+                    </div>
+                    <div class="section">
+                        <h2>&gt; Education & Stats</h2>
+                        <p>→ B.E. in AI & Data Science | CGPI: 7.38 (Current)</p>
+                        <p>→ Datta Meghe College of Engineering, Airoli</p>
+                        <p>→ Diploma in Mechanical Engineering: 82.83%</p>
+                        <p>→ Secondary (X): 87.22%</p>
+                        <p>→ Location: Airoli, Thane, Maharashtra</p>
+                    </div>
+                </div>
+                
+                <!-- Channel 2: Projects -->
+                <div class="channel-content" id="channel2">
+                    <div class="header">
+                        <h1>PROJECTS</h1>
+                        <div class="subtitle">My Digital Creations</div>
+                    </div>
+                    <div class="project-grid">
+                        <div class="project-card" onclick="showProjectDetails('writers-copilot')">
+                            <h3>Writer's Co-Pilot</h3>
+                            <p>AI-powered writing assistant with advanced NLP capabilities providing real-time suggestions and corrections.</p>
+                            <p class="date">Completed: March 2025</p>
+                        </div>
+                        <div class="project-card" onclick="showProjectDetails('vision-ai')">
+                            <h3>Vision AI - Interactive Perception</h3>
+                            <p>Real-time object detection system with voice command processing on Raspberry Pi.</p>
+                            <p class="date">Completed: October 2024</p>
+                        </div>
+                        <div class="project-card" onclick="showProjectDetails('dynamic-route')">
+                            <h3>Dynamic Route Optimization</h3>
+                            <p>LOGIthon hackathon project - Dynamic route optimization system for international trades.</p>
+                            <p class="date">Hackathon Project</p>
+                        </div>
+                        <div class="project-card" onclick="showProjectDetails('colorization')">
+                            <h3>AI-Powered Image/Video Colorization</h3>
+                            <p>CNN-based system for automatic colorization of grayscale images and videos.</p>
+                            <p class="date">Academic Project</p>
+                        </div>
+                        <div class="project-card" onclick="showProjectDetails('database-integration')">
+                            <h3>Database Integration Systems</h3>
+                            <p>Projects utilizing MySQL, SQLite & MongoDB with Python for efficient data management.</p>
+                            <p class="date">Completed: August 2024</p>
+                        </div>
+                        <div class="project-card" onclick="showProjectDetails('retro-portfolio')">
+                            <h3>Retro TV Portfolio</h3>
+                            <p>This interactive retro TV-themed portfolio showcasing my projects and skills.</p>
+                            <p class="date">Personal Project</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Channel 3: Skills -->
+                <div class="channel-content" id="channel3">
+                    <div class="header">
+                        <h1>SKILLS</h1>
+                        <div class="subtitle">My Technical Arsenal</div>
+                    </div>
+                    <div class="section">
+                        <h2>&gt; Programming Languages</h2>
+                        <div class="skills-grid">
+                            <div class="skill-tag">C++</div>
+                            <div class="skill-tag">Python</div>
+                            <div class="skill-tag">Java (Basic)</div>
+                            <div class="skill-tag">HTML</div>
+                            <div class="skill-tag">CSS</div>
+                            <div class="skill-tag">JavaScript</div>
+                            <div class="skill-tag">C#</div>
+                            <div class="skill-tag">PHP</div>
+                        </div>
+                    </div>
+                    <div class="section">
+                        <h2>&gt; Databases & Tools</h2>
+                        <div class="skills-grid">
+                            <div class="skill-tag">MySQL</div>
+                            <div class="skill-tag">MongoDB</div>
+                            <div class="skill-tag">SQLite</div>
+                            <div class="skill-tag">Git</div>
+                            <div class="skill-tag">GitHub</div>
+                            <div class="skill-tag">VS Code</div>
+                            <div class="skill-tag">MS Office</div>
+                        </div>
+                    </div>
+                    <div class="section">
+                        <h2>&gt; Soft Skills</h2>
+                        <div class="skills-grid">
+                            <div class="skill-tag">Problem-solving</div>
+                            <div class="skill-tag">Time Management</div>
+                            <div class="skill-tag">Teamwork</div>
+                            <div class="skill-tag">Multitasking</div>
+                            <div class="skill-tag">Leadership</div>
+                            <div class="skill-tag">Communication</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Channel 4: Certificates -->
+                <div class="channel-content" id="channel4">
+                    <div class="header">
+                        <h1>CERTIFICATES</h1>
+                        <div class="subtitle">My Learning Journey</div>
+                    </div>
+                    <div class="certificate-grid">
+                        <div class="certificate-card" onclick="showCertificate('Databases')">
+                            <h3>Databases with Python</h3>
+                            <p>MySQL, SQLite & MongoDB with Python</p>
+                            <p class="date">Aug 27, 2024</p>
+                        </div>
+                        <div class="certificate-card" onclick="showCertificate('Python')">
+                            <h3>Python Development & Data Science</h3>
+                            <p>Variables and Data Types</p>
+                            <p class="date">July 31, 2024</p>
+                        </div>
+                        <div class="certificate-card" onclick="showCertificate('HTML')">
+                            <h3>HTML - The Complete Guide</h3>
+                            <p>Complete Guide to HTML for Beginners</p>
+                            <p class="date">July 25, 2024</p>
+                        </div>
+                        <div class="certificate-card" onclick="showCertificate('Git')">
+                            <h3>Git & GitHub Bootcamp</h3>
+                            <p>5-day intensive bootcamp</p>
+                            <p class="date">Sep 2-6, 2024</p>
+                        </div>
+                        <div class="certificate-card" onclick="showCertificate('JavaScript')">
+                            <h3>JavaScript Bootcamp</h3>
+                            <p>5-day intensive bootcamp</p>
+                            <p class="date">Sep 10-14, 2024</p>
+                        </div>
+                        <div class="certificate-card" onclick="showCertificate('CSharp')">
+                            <h3>C# for Beginners</h3>
+                            <p>Fundamentals of C# programming</p>
+                            <p class="date">April 21, 2025</p>
+                        </div>
+                        <div class="certificate-card" onclick="showCertificate('PHP')">
+                            <h3>PHP Master Class</h3>
+                            <p>The Complete PHP Developer Course</p>
+                            <p class="date">March 5, 2025</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Channel 5: Contact -->
+                <div class="channel-content" id="channel5">
+                    <div class="header">
+                        <h1>CONTACT</h1>
+                        <div class="subtitle">Let's Connect!</div>
+                    </div>
+                    <div class="section">
+                        <h2>&gt; Get In Touch</h2>
+                        <div class="contact-info">
+                            <div class="contact-item" onclick="window.location.href='mailto:ai.57.swaraj.patil@gmail.com'">
+                                <span>📧</span>
+                                <span>ai.57.swaraj.patil@gmail.com</span>
+                            </div>
+                            <div class="contact-item" onclick="window.location.href='tel:+918999146688'">
+                                <span>📱</span>
+                                <span>+91 8999146688</span>
+                            </div>
+                            <div class="contact-item" onclick="window.open('https://github.com/swarajpatil', '_blank')">
+                                <span>🐙</span>
+                                <span>github.com/swarajpatil</span>
+                            </div>
+                            <div class="contact-item" onclick="window.open('https://linkedin.com/in/swarajpatil', '_blank')">
+                                <span>💼</span>
+                                <span>linkedin.com/in/swarajpatil</span>
+                            </div>
+                            <div class="contact-item">
+                                <span>📍</span>
+                                <span>Airoli, Thane, Maharashtra</span>
+                            </div>
+                            <div class="contact-item">
+                                <span>🎯</span>
+                                <span>AI & Data Science Specialist</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section">
+                        <h2>&gt; Certifications & Training</h2>
+                        <p>→ Databases with Python: MySQL, SQLite & MongoDB (Udemy, Aug 2024)</p>
+                        <p>→ Python Development & Data Science (Udemy, July 2024)</p>
+                        <p>→ The Complete Guide to HTML (Udemy, July 2024)</p>
+                        <p>→ C++ Training (IIT Bombay, July 2021)</p>
+                        <p>→ Git & GitHub Bootcamp (LetsUpgrade, Sep 2024)</p>
+                        <p>→ JavaScript Bootcamp (LetsUpgrade, Sep 2024)</p>
+                    </div>
+                    <div class="section">
+                        <h2>&gt; Leadership & Activities</h2>
+                        <p>→ Head of Art and Gallery - Government Polytechnic, Mumbai</p>
+                        <p>→ LOGIthon Hackathon Participant - Dynamic Route Optimization</p>
+                        <p>→ Active in technical communities and coding excellence</p>
+                    </div>
+                </div>
 
-    <header id="home">
-        <div class="hero-content">
-            <h1>Swaraj Patil</h1>
-            <h2>Playing a Long Innings in AI & Innovation</h2>
-            <p style="color: var(--white); font-size: 1.2rem; max-width: 800px; margin: 0 auto;">
-                "I hate losing, and I believe the steps I take are for winning." <br>- <strong>Virat Kohli</strong>
-            </p>
-        </div>
-        <div class="stumps-decoration">
-            <div class="stump"></div>
-            <div class="stump"></div>
-            <div class="stump"></div>
-        </div>
-    </header>
-
-    <section class="skills-section" id="skills">
-        <h2 class="section-title">Technical Skills Scorecard</h2>
-        <div class="skills-scorecard">
-            <div class="scorecard-header">
-                <span>TECHNICAL SKILLS</span>
-                <span>R</span>
-                <span>4s</span>
-                <span>6s</span>
-            </div>
-            <div class="scorecard-row">
-                <span>Python (Advanced)</span>
-                <div class="skill-bar">
-                    <div class="skill-progress" style="width: 90%;"></div>
-                </div>
-                <span>12</span>
-                <span>8</span>
-            </div>
-            <div class="scorecard-row">
-                <span>AI/ML</span>
-                <div class="skill-bar">
-                    <div class="skill-progress" style="width: 80%;"></div>
-                </div>
-                <span>10</span>
-                <span>5</span>
-            </div>
-            <div class="scorecard-row">
-                <span>Databases</span>
-                <div class="skill-bar">
-                    <div class="skill-progress" style="width: 75%;"></div>
-                </div>
-                <span>8</span>
-                <span>3</span>
-            </div>
-            <div class="scorecard-row">
-                <span>Web Development</span>
-                <div class="skill-bar">
-                    <div class="skill-progress" style="width: 70%;"></div>
-                </div>
-                <span>7</span>
-                <span>2</span>
-            </div>
-        </div>
-    </section>
-
-    <section class="projects-section" id="projects">
-        <h2 class="section-title">Project Highlights</h2>
-        <div class="projects-container">
-            <div class="project-card helmet">
-                <div class="project-image" style="background-image: url('https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
-                <div class="project-details">
-                    <h3 class="project-title">Vision AI</h3>
-                    <p>Interactive Perception System</p>
-                    <ul class="project-highlights">
-                        <li>90% Accuracy in Object Detection</li>
-                        <li>Real-time Processing</li>
-                        <li>Low-resource Optimization</li>
-                    </ul>
-                    <div class="tech-stack">
-                        <span class="tech-item">Python</span>
-                        <span class="tech-item">OpenCV</span>
-                        <span class="tech-item">Raspberry Pi</span>
+                <!-- Channel 6: Retro Arcade -->
+                <div class="channel-content" id="channel6">
+                    <div class="header">
+                        <h1>RETRO ARCADE</h1>
+                        <div class="subtitle">Select a Game</div>
+                    </div>
+                    
+                    <!-- Game Selection Menu -->
+                    <div class="game-menu" id="gameMenu">
+                        <div class="game-option" onclick="selectGame('pong')">
+                            <h3>PONG</h3>
+                            <p>Classic 2-player ping pong</p>
+                        </div>
+                        
+                        <div class="game-option" onclick="selectGame('snake')">
+                            <h3>CYBER SNAKE</h3>
+                            <p>Eat food and grow longer</p>
+                        </div>
+                        
+                        <div class="game-option" onclick="selectGame('tetris')">
+                            <h3>TETRIS</h3>
+                            <p>Stack the falling blocks</p>
+                        </div>
+                        
+                        <div class="game-option" onclick="selectGame('pacman')">
+                            <h3>PAC-MAN</h3>
+                            <p>Eat pellets and avoid ghosts</p>
+                        </div>
+                        
+                        <div class="game-option" onclick="selectGame('invaders')">
+                            <h3>SPACE INVADERS</h3>
+                            <p>Shoot descending aliens</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Pong Game Screen -->
+                    <div class="game-screen" id="pongScreen">
+                        <h3 class="game-title">PONG</h3>
+                        <div class="player-info">
+                            <div class="score-display">PLAYER 1: <span id="p1Score">0</span></div>
+                            <div class="score-display">PLAYER 2: <span id="p2Score">0</span></div>
+                        </div>
+                        <canvas id="pongGame" class="game-canvas"></canvas>
+                        <div class="controls-info">
+                            PLAYER 1: W/S | PLAYER 2: ↑/↓
+                        </div>
+                        <div class="game-controls">
+                            <button class="game-btn" onclick="resetPongGame()">RESET</button>
+                            <button class="game-btn" onclick="togglePongPause()">PAUSE</button>
+                        </div>
+                        <div class="back-btn">
+                            <button class="game-btn" onclick="backToMenu()">BACK TO MENU (ESC)</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Snake Game Screen -->
+                    <div class="game-screen" id="snakeScreen">
+                        <h3 class="game-title">CYBER SNAKE</h3>
+                        <div class="player-info">
+                            <div class="score-display">SCORE: <span id="snakeScore">0</span></div>
+                            <div class="score-display">HIGH: <span id="snakeHighScore">0</span></div>
+                        </div>
+                        <canvas id="snakeGame" class="game-canvas"></canvas>
+                        <div class="controls-info">
+                            CONTROLS: Arrow Keys to Move
+                        </div>
+                        <div class="game-controls">
+                            <button class="game-btn" onclick="resetSnakeGame()">RESET</button>
+                            <button class="game-btn" onclick="toggleSnakePause()">PAUSE</button>
+                        </div>
+                        <div class="back-btn">
+                            <button class="game-btn" onclick="backToMenu()">BACK TO MENU (ESC)</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Tetris Game Screen -->
+                    <div class="game-screen" id="tetrisScreen">
+                        <h3 class="game-title">TETRIS</h3>
+                        <div class="player-info">
+                            <div class="score-display">SCORE: <span id="tetrisScore">0</span></div>
+                            <div class="score-display">LEVEL: <span id="tetrisLevel">1</span></div>
+                            <div class="score-display">LINES: <span id="tetrisLines">0</span></div>
+                        </div>
+                        <canvas id="tetrisGame" class="game-canvas"></canvas>
+                        <div class="controls-info">
+                            CONTROLS: ← → to Move | ↑ to Rotate | ↓ to Drop
+                        </div>
+                        <div class="game-controls">
+                            <button class="game-btn" onclick="resetTetrisGame()">RESET</button>
+                            <button class="game-btn" onclick="toggleTetrisPause()">PAUSE</button>
+                        </div>
+                        <div class="back-btn">
+                            <button class="game-btn" onclick="backToMenu()">BACK TO MENU (ESC)</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Pac-Man Game Screen -->
+                    <div class="game-screen" id="pacmanScreen">
+                        <h3 class="game-title">PAC-MAN</h3>
+                        <div class="player-info">
+                            <div class="score-display">SCORE: <span id="pacmanScore">0</span></div>
+                            <div class="score-display">LIVES: <span id="pacmanLives">3</span></div>
+                            <div class="score-display">LEVEL: <span id="pacmanLevel">1</span></div>
+                        </div>
+                        <canvas id="pacmanGame" class="game-canvas"></canvas>
+                        <div class="controls-info">
+                            CONTROLS: Arrow Keys to Move
+                        </div>
+                        <div class="game-controls">
+                            <button class="game-btn" onclick="resetPacmanGame()">RESET</button>
+                            <button class="game-btn" onclick="togglePacmanPause()">PAUSE</button>
+                        </div>
+                        <div class="back-btn">
+                            <button class="game-btn" onclick="backToMenu()">BACK TO MENU (ESC)</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Space Invaders Game Screen -->
+                    <div class="game-screen" id="invadersScreen">
+                        <h3 class="game-title">SPACE INVADERS</h3>
+                        <div class="player-info">
+                            <div class="score-display">SCORE: <span id="invadersScore">0</span></div>
+                            <div class="score-display">LIVES: <span id="invadersLives">3</span></div>
+                            <div class="score-display">LEVEL: <span id="invadersLevel">1</span></div>
+                        </div>
+                        <canvas id="invadersGame" class="game-canvas"></canvas>
+                        <div class="controls-info">
+                            CONTROLS: ← → to Move | Space to Shoot
+                        </div>
+                        <div class="game-controls">
+                            <button class="game-btn" onclick="resetInvadersGame()">RESET</button>
+                            <button class="game-btn" onclick="toggleInvadersPause()">PAUSE</button>
+                        </div>
+                        <div class="back-btn">
+                            <button class="game-btn" onclick="backToMenu()">BACK TO MENU (ESC)</button>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="project-card glove">
-                <div class="project-image" style="background-image: url('https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
-                <div class="project-details">
-                    <h3 class="project-title">Writer's Co-Pilot</h3>
-                    <p>AI-Powered Writing Assistant</p>
-                    <ul class="project-highlights">
-                        <li>90% Suggestion Accuracy</li>
-                        <li>Contextual Corrections</li>
-                        <li>30% Stability Improvement</li>
-                    </ul>
-                    <div class="tech-stack">
-                        <span class="tech-item">Python</span>
-                        <span class="tech-item">NLP</span>
-                        <span class="tech-item">Transformers</span>
-                    </div>
-                </div>
+        </div>
+        
+        <div class="controls">
+            <div class="power-indicator"></div>
+            <div class="channel-buttons">
+                <button class="channel-btn active" onclick="changeChannel(1)">01</button>
+                <button class="channel-btn" onclick="changeChannel(2)">02</button>
+                <button class="channel-btn" onclick="changeChannel(3)">03</button>
+                <button class="channel-btn" onclick="changeChannel(4)">04</button>
+                <button class="channel-btn" onclick="changeChannel(5)">05</button>
+                <button class="channel-btn" onclick="changeChannel(6)">06</button>
             </div>
         </div>
-    </section>
-
-    <section class="contact-section" id="contact">
-        <h2 class="section-title" style="color: var(--white);">Let's Hit a Collaboration Sixer!</h2>
-        <p class="contact-cta">Ready to partner on the next big project? <span class="bat-animation">🏏</span></p>
-        <div class="social-links">
-            <a href="https://www.linkedin.com/in/swarajpatil18/" class="social-link" title="LinkedIn">🏏</a>
-            <a href="https://github.com/CodeXSwaraj" class="social-link" title="GitHub">🎯</a>
-            <a href="mailto:ai.57.swaraj.patil@gmail.com" class="social-link" title="Email">✉️</a>
+    </div>
+    
+    <!-- Project Details Modal -->
+    <div class="modal" id="projectModal">
+        <div class="modal-content project-modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <div id="projectModalContent">
+                <!-- Dynamic content will be inserted here -->
+            </div>
         </div>
-    </section>
-
+    </div>
+    
+    <!-- Certificate Modal -->
+    <div class="modal" id="certificateModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <div id="certificateModalContent"></div>
+        </div>
+    </div>
+    
     <script>
-        // Simple animation trigger on scroll
-        document.addEventListener('DOMContentLoaded', function() {
-            const sections = document.querySelectorAll('section');
+        // Optimized channel switching function
+        function changeChannel(channelNum) {
+            const channels = document.querySelectorAll('.channel-content');
+            channels.forEach(channel => channel.classList.remove('active'));
             
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = 1;
-                        entry.target.style.transform = 'translateY(0)';
-                    }
-                });
-            }, { threshold: 0.1 });
+            document.getElementById(`channel${channelNum}`).classList.add('active');
+            document.getElementById('current-channel').textContent = channelNum.toString().padStart(2, '0');
             
-            sections.forEach(section => {
-                section.style.opacity = 0;
-                section.style.transform = 'translateY(20px)';
-                section.style.transition = 'all 0.6s ease-out';
-                observer.observe(section);
+            const buttons = document.querySelectorAll('.channel-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            buttons[channelNum - 1].classList.add('active');
+            
+            const screen = document.querySelector('.screen');
+            screen.style.opacity = '0.8';
+            setTimeout(() => screen.style.opacity = '1', 100);
+            
+            playSound('click');
+        }
+        
+        function playSound(type) {
+            if (type === 'click') {
+                const click = new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU...');
+                click.volume = 0.3;
+                click.play().catch(e => console.log('Audio play failed:', e));
+            }
+        }
+        
+        // Project data with detailed information
+        const projects = {
+            'writers-copilot': {
+                title: "Writer's Co-Pilot",
+                summary: "An advanced AI-powered writing assistant that provides real-time suggestions for improving writing quality, style, and clarity. The system uses advanced NLP techniques to understand context and provide relevant recommendations. Developed as part of academic coursework at Datta Meghe College of Engineering.",
+                results: [
+                    "Reduced writing time by 30% for test users",
+                    "Improved grammar accuracy by 28% compared to basic spellcheckers",
+                    "Implemented style adaptation for different writing genres",
+                    "Featured in 2024 AI Tools Summit as an emerging writing technology",
+                    "Provides both creative and grammatical suggestions in real-time"
+                ],
+                technologies: ["Python", "NLTK", "spaCy", "Transformers", "FastAPI", "Supabase"],
+                links: [
+                    {text: "View Project Report", url: "#"}
+                ],
+                date: "March 2025",
+                team: "Bhaumik Birje, Karthik Nair, Swaraj Patil, Atharva Sawant",
+                supervisor: "Dr. Sanjay M. Patil"
+            },
+            'vision-ai': {
+                title: "Vision AI - Interactive Perception System",
+                summary: "An innovative system combining real-time object recognition with natural language processing to build a voice-controlled interface. Based on Raspberry Pi, it provides low-cost but powerful capabilities for object recognition and voice command processing in the user's surrounding environment.",
+                results: [
+                    "Achieved 92.7% accuracy in real-time object detection",
+                    "Reduced model size by 40% through quantization techniques",
+                    "Implemented contextual information layer that improved user understanding by 35%",
+                    "Successfully deployed in retail and healthcare pilot programs",
+                    "Demonstrated feasibility of integrated audio-visual processing on edge devices"
+                ],
+                technologies: ["Python", "OpenCV", "TensorFlow", "Raspberry Pi", "Speech Recognition", "NLP"],
+                links: [
+                    {text: "View Project Report", url: "#"}
+                ],
+                date: "October 2024",
+                team: "Bhaumik Birje, Hardik Patil, Swaraj Patil, Atharva Sawant",
+                supervisor: "Dr. S. M. Patil"
+            },
+            'dynamic-route': {
+                title: "Dynamic Route Optimization",
+                summary: "A dynamic route optimization system developed for the LOGIthon hackathon, focusing on optimizing international trade routes. The system analyzes various parameters to suggest the most efficient routes for logistics operations.",
+                results: [
+                    "Reduced estimated travel time by 15-20% on test routes",
+                    "Integrated real-time traffic and weather data",
+                    "Implemented multi-objective optimization for cost and time",
+                    "Received special recognition at LOGIthon hackathon"
+                ],
+                technologies: ["Python", "Django", "Google Maps API", "MySQL"],
+                links: [],
+                date: "Hackathon Project",
+                team: "Swaraj Patil et al."
+            },
+            'colorization': {
+                title: "AI-Powered Image/Video Colorization",
+                summary: "CNN-based system for automatic colorization of grayscale images and videos. The project explores different deep learning frameworks for colorization tasks and compares their performance.",
+                results: [
+                    "Successfully colorized historical images with 85% accuracy",
+                    "Compared performance across TensorFlow, PyTorch, MXNet and Caffe",
+                    "Implemented post-processing techniques to enhance output quality",
+                    "Developed user-friendly GUI for easy interaction"
+                ],
+                technologies: ["Python", "TensorFlow", "PyTorch", "OpenCV", "Keras", "Tkinter"],
+                links: [],
+                date: "Academic Project",
+                team: "Swaraj Patil et al."
+            },
+            'database-integration': {
+                title: "Database Integration Systems",
+                summary: "Projects utilizing MySQL, SQLite & MongoDB with Python for efficient data management and retrieval. Developed as part of Udemy certification course on database integration.",
+                results: [
+                    "Implemented CRUD operations across different database systems",
+                    "Developed efficient data retrieval algorithms",
+                    "Created data migration tools between different database types",
+                    "Achieved certification with distinction"
+                ],
+                technologies: ["Python", "MySQL", "SQLite", "MongoDB", "Flask"],
+                links: [],
+                date: "August 2024",
+                certification: "Databases with Python: MySQL, SQLite & MongoDB (Udemy)"
+            },
+            'retro-portfolio': {
+                title: "Retro TV Portfolio",
+                summary: "This interactive retro TV-themed portfolio showcasing my projects and skills with animated effects and channel navigation. Designed to stand out from traditional portfolios with its unique cyberpunk aesthetic.",
+                results: [
+                    "Created fully responsive design",
+                    "Implemented interactive channel switching",
+                    "Developed animated CRT TV effects",
+                    "Integrated detailed project modals"
+                ],
+                technologies: ["HTML", "CSS", "JavaScript"],
+                links: [],
+                date: "Personal Project"
+            }
+        };
+        
+        function showProjectDetails(projectId) {
+            const project = projects[projectId];
+            const modal = document.getElementById('projectModal');
+            const modalContent = document.getElementById('projectModalContent');
+            
+            let techTags = project.technologies.map(tech => 
+                `<span class="tech-tag">${tech}</span>`
+            ).join('');
+            
+            let resultItems = project.results.map(result => 
+                `<li>${result}</li>`
+            ).join('');
+            
+            let projectLinks = project.links.map(link => 
+                `<a href="${link.url}" class="project-link" target="_blank">${link.text}</a>`
+            ).join('');
+            
+            let teamInfo = project.team ? 
+                `<p><strong>Team:</strong> ${project.team}</p>` : '';
+            
+            let supervisorInfo = project.supervisor ? 
+                `<p><strong>Supervisor:</strong> ${project.supervisor}</p>` : '';
+            
+            let certificationInfo = project.certification ? 
+                `<p><strong>Certification:</strong> ${project.certification}</p>` : '';
+            
+            modalContent.innerHTML = `
+                <h2>${project.title}</h2>
+                <p class="date">${project.date}</p>
+                
+                ${teamInfo}
+                ${supervisorInfo}
+                ${certificationInfo}
+                
+                <div class="project-details">
+                    <div class="project-summary">
+                        <h3>Project Summary</h3>
+                        <p>${project.summary}</p>
+                    </div>
+                    <div class="project-results">
+                        <h3>Key Results</h3>
+                        <ul>${resultItems}</ul>
+                    </div>
+                </div>
+                
+                <div class="project-technologies">
+                    <h3>Technologies Used:</h3>
+                    ${techTags}
+                </div>
+                
+                ${projectLinks ? `<div class="project-links"><h3>Links:</h3>${projectLinks}</div>` : ''}
+            `;
+            
+            modal.style.display = 'flex';
+            playSound('click');
+        }
+        
+        function showCertificate(certType) {
+            const modal = document.getElementById('certificateModal');
+            const modalContent = document.getElementById('certificateModalContent');
+            
+            let content = '';
+            switch(certType) {
+                case 'Databases':
+                    content = `
+                        <h2>Databases with Python: MySQL, SQLite & MongoDB</h2>
+                        <p>Udemy Certificate of Completion</p>
+                        <p>Instructors: SDE Arts by Ahmed El Mohandes</p>
+                        <p>Completed: August 27, 2024</p>
+                        <p>Duration: 3 hours</p>
+                    `;
+                    break;
+                case 'Python':
+                    content = `
+                        <h2>Python Development & Data Science</h2>
+                        <p>Udemy Certificate of Completion</p>
+                        <p>Instructors: MTF Institute</p>
+                        <p>Completed: July 31, 2024</p>
+                        <p>Duration: 1.5 hours</p>
+                    `;
+                    break;
+                case 'HTML':
+                    content = `
+                        <h2>HTML - The Complete Guide to HTML for Beginners</h2>
+                        <p>Udemy Certificate of Completion</p>
+                        <p>Instructors: Sara Academy</p>
+                        <p>Completed: July 25, 2024</p>
+                        <p>Duration: 2 hours</p>
+                    `;
+                    break;
+                case 'Git':
+                    content = `
+                        <h2>Git & GitHub Bootcamp</h2>
+                        <p>LetsUpgrade Certificate</p>
+                        <p>5-day intensive bootcamp</p>
+                        <p>Completed: September 2-6, 2024</p>
+                        <p>In collaboration with NSDC</p>
+                    `;
+                    break;
+                case 'JavaScript':
+                    content = `
+                        <h2>JavaScript Bootcamp</h2>
+                        <p>LetsUpgrade Certificate</p>
+                        <p>5-day intensive bootcamp</p>
+                        <p>Completed: September 10-14, 2024</p>
+                        <p>In collaboration with NSDC</p>
+                    `;
+                    break;
+                case 'CSharp':
+                    content = `
+                        <h2>C# for Beginners</h2>
+                        <p>Udemy Certificate of Completion</p>
+                        <p>Instructors: Frank Anemaet</p>
+                        <p>Completed: April 21, 2025</p>
+                        <p>Duration: 2 hours</p>
+                    `;
+                    break;
+                case 'PHP':
+                    content = `
+                        <h2>PHP Master Class</h2>
+                        <p>Udemy Certificate of Completion</p>
+                        <p>Instructors: Sara Academy</p>
+                        <p>Completed: March 5, 2025</p>
+                        <p>Duration: 3.5 hours</p>
+                    `;
+                    break;
+            }
+            
+            modalContent.innerHTML = content;
+            modal.style.display = 'flex';
+            playSound('click');
+        }
+        
+        function closeModal() {
+            document.getElementById('projectModal').style.display = 'none';
+            document.getElementById('certificateModal').style.display = 'none';
+            playSound('click');
+        }
+        
+        // Close modal when clicking outside content
+        window.onclick = function(event) {
+            const modals = ['projectModal', 'certificateModal'];
+            modals.forEach(modalId => {
+                const modal = document.getElementById(modalId);
+                if (event.target == modal) {
+                    closeModal();
+                }
             });
+        }
+        
+        // Initialize the portfolio
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                document.getElementById('bootSequence').style.display = 'none';
+            }, 3000);
             
-            // Kohli quote rotator
-            const quotes = [
-                "I like to be myself, and I don't pretend. For instance, I don't dress up for occasions; I am what I am.",
-                "Self-belief and hard work will always earn you success.",
-                "I know what my strengths are and I know what I need to work on."
+            document.addEventListener('keydown', function(e) {
+                if (e.key >= '1' && e.key <= '6') {
+                    changeChannel(parseInt(e.key));
+                } else if (e.key === 'Escape') {
+                    closeModal();
+                }
+            });
+        });
+        
+        // Add periodic screen flicker
+        setInterval(() => {
+            if (Math.random() < 0.05) {
+                const screen = document.querySelector('.screen');
+                screen.style.opacity = '0.95';
+                setTimeout(() => {
+                    screen.style.opacity = '1';
+                }, 50);
+            }
+        }, 5000);
+
+        // ======================
+        // GAME MANAGEMENT SYSTEM
+        // ======================
+        let currentGame = null;
+        const gameMenu = document.getElementById('gameMenu');
+        
+        function selectGame(game) {
+            gameMenu.style.display = 'none';
+            document.querySelector('.tv-container').style.display = 'none';
+            currentGame = game;
+            
+            const screen = document.getElementById(`${game}Screen`);
+            screen.style.display = 'flex';
+            
+            // Initialize the selected game
+            switch(game) {
+                case 'pong': startPongGame(); break;
+                case 'snake': startSnakeGame(); break;
+                case 'tetris': startTetrisGame(); break;
+                case 'pacman': startPacmanGame(); break;
+                case 'invaders': startInvadersGame(); break;
+            }
+        }
+        
+        function backToMenu() {
+            if (!currentGame) return;
+            
+            const screen = document.getElementById(`${currentGame}Screen`);
+            screen.style.display = 'none';
+            
+            // Clean up game loops
+            switch(currentGame) {
+                case 'pong': cancelAnimationFrame(pongAnimationId); break;
+                case 'snake': clearInterval(snakeGameLoop); break;
+                case 'tetris': cancelAnimationFrame(tetrisAnimationId); break;
+                case 'pacman': cancelAnimationFrame(pacmanAnimationId); break;
+                case 'invaders': cancelAnimationFrame(invadersAnimationId); break;
+            }
+            
+            document.querySelector('.tv-container').style.display = 'block';
+            gameMenu.style.display = 'grid';
+            currentGame = null;
+        }
+        
+        // Handle ESC key to return to menu
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                backToMenu();
+            }
+        });
+
+        // ======================
+        // PONG GAME IMPLEMENTATION
+        // ======================
+        let pongGame, pongCtx;
+        let pongAnimationId;
+        let pongPaused = false;
+        let p1Score = 0, p2Score = 0;
+        let ball = { x: 0, y: 0, radius: 10, dx: 4, dy: 4 };
+        let paddle1 = { x: 0, y: 0, width: 10, height: 100 };
+        let paddle2 = { x: 0, y: 0, width: 10, height: 100 };
+        let paddleSpeed = 8;
+        
+        function initPongGame() {
+            pongGame = document.getElementById('pongGame');
+            pongCtx = pongGame.getContext('2d');
+            pongGame.width = pongGame.offsetWidth;
+            pongGame.height = pongGame.offsetHeight;
+            
+            // Reset scores
+            p1Score = 0;
+            p2Score = 0;
+            document.getElementById('p1Score').textContent = p1Score;
+            document.getElementById('p2Score').textContent = p2Score;
+            
+            // Position paddles
+            paddle1.x = 20;
+            paddle1.y = pongGame.height / 2 - paddle1.height / 2;
+            
+            paddle2.x = pongGame.width - 30;
+            paddle2.y = pongGame.height / 2 - paddle2.height / 2;
+            
+            // Position ball
+            resetBall();
+        }
+        
+        function resetBall() {
+            ball.x = pongGame.width / 2;
+            ball.y = pongGame.height / 2;
+            ball.dx = Math.random() > 0.5 ? 4 : -4;
+            ball.dy = (Math.random() * 4) - 2;
+        }
+        
+        function startPongGame() {
+            initPongGame();
+            pongPaused = false;
+            pongAnimationId = requestAnimationFrame(updatePong);
+        }
+        
+        function resetPongGame() {
+            cancelAnimationFrame(pongAnimationId);
+            startPongGame();
+        }
+        
+        function togglePongPause() {
+            pongPaused = !pongPaused;
+            if (!pongPaused) {
+                pongAnimationId = requestAnimationFrame(updatePong);
+            }
+        }
+        
+        function updatePong() {
+            if (pongPaused) return;
+            
+            // Clear canvas
+            pongCtx.fillStyle = '#000';
+            pongCtx.fillRect(0, 0, pongGame.width, pongGame.height);
+            
+            // Draw center line
+            pongCtx.strokeStyle = '#00ff41';
+            pongCtx.setLineDash([10, 10]);
+            pongCtx.beginPath();
+            pongCtx.moveTo(pongGame.width / 2, 0);
+            pongCtx.lineTo(pongGame.width / 2, pongGame.height);
+            pongCtx.stroke();
+            pongCtx.setLineDash([]);
+            
+            // Draw paddles
+            pongCtx.fillStyle = '#00ff41';
+            pongCtx.fillRect(paddle1.x, paddle1.y, paddle1.width, paddle1.height);
+            pongCtx.fillRect(paddle2.x, paddle2.y, paddle2.width, paddle2.height);
+            
+            // Draw ball
+            pongCtx.beginPath();
+            pongCtx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+            pongCtx.fillStyle = '#ff0066';
+            pongCtx.fill();
+            pongCtx.closePath();
+            
+            // Move ball
+            ball.x += ball.dx;
+            ball.y += ball.dy;
+            
+            // Wall collision (top/bottom)
+            if (ball.y + ball.radius > pongGame.height || ball.y - ball.radius < 0) {
+                ball.dy = -ball.dy;
+            }
+            
+            // Paddle collision
+            if (
+                ball.x - ball.radius < paddle1.x + paddle1.width &&
+                ball.y > paddle1.y &&
+                ball.y < paddle1.y + paddle1.height
+            ) {
+                ball.dx = -ball.dx * 1.05; // Increase speed slightly
+                // Add some angle based on where ball hits paddle
+                let hitPos = (ball.y - (paddle1.y + paddle1.height / 2)) / (paddle1.height / 2);
+                ball.dy = hitPos * 5;
+            }
+            
+            if (
+                ball.x + ball.radius > paddle2.x &&
+                ball.y > paddle2.y &&
+                ball.y < paddle2.y + paddle2.height
+            ) {
+                ball.dx = -ball.dx * 1.05;
+                let hitPos = (ball.y - (paddle2.y + paddle2.height / 2)) / (paddle2.height / 2);
+                ball.dy = hitPos * 5;
+            }
+            
+            // Score points
+            if (ball.x - ball.radius < 0) {
+                p2Score++;
+                document.getElementById('p2Score').textContent = p2Score;
+                resetBall();
+            } else if (ball.x + ball.radius > pongGame.width) {
+                p1Score++;
+                document.getElementById('p1Score').textContent = p1Score;
+                resetBall();
+            }
+            
+            // Check win condition
+            if (p1Score >= 10 || p2Score >= 10) {
+                alert(`GAME OVER! ${p1Score >= 10 ? 'Player 1' : 'Player 2'} wins!`);
+                resetPongGame();
+                return;
+            }
+            
+            pongAnimationId = requestAnimationFrame(updatePong);
+        }
+        
+        // Paddle controls
+        document.addEventListener('keydown', function(e) {
+            if (currentGame !== 'pong') return;
+            
+            // Player 1 (W/S)
+            if (e.key === 'w' && paddle1.y > 0) {
+                paddle1.y -= paddleSpeed;
+            } else if (e.key === 's' && paddle1.y < pongGame.height - paddle1.height) {
+                paddle1.y += paddleSpeed;
+            }
+            
+            // Player 2 (Up/Down arrows)
+            if (e.key === 'ArrowUp' && paddle2.y > 0) {
+                paddle2.y -= paddleSpeed;
+            } else if (e.key === 'ArrowDown' && paddle2.y < pongGame.height - paddle2.height) {
+                paddle2.y += paddleSpeed;
+            }
+        });
+
+        // ======================
+        // SNAKE GAME IMPLEMENTATION
+        // ======================
+        let snakeGame, snakeCtx;
+        let snakeGameLoop;
+        let snakePaused = false;
+        let snake = [];
+        let food = {};
+        let dx = 0, dy = 0;
+        let snakeScore = 0;
+        let snakeHighScore = localStorage.getItem('snakeHighScore') || 0;
+        
+        function initSnakeGame() {
+            snakeGame = document.getElementById('snakeGame');
+            snakeCtx = snakeGame.getContext('2d');
+            snakeGame.width = snakeGame.offsetWidth;
+            snakeGame.height = snakeGame.offsetHeight;
+            
+            // Initialize snake
+            snake = [
+                {x: 160, y: 160},
+                {x: 150, y: 160},
+                {x: 140, y: 160},
+                {x: 130, y: 160},
+                {x: 120, y: 160}
             ];
             
-            setInterval(() => {
-                const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-                document.querySelector('header p').innerHTML = `"${randomQuote}" <br>- <strong>Virat Kohli</strong>`;
-            }, 8000);
+            dx = 10;
+            dy = 0;
+            snakeScore = 0;
+            document.getElementById('snakeScore').textContent = snakeScore;
+            document.getElementById('snakeHighScore').textContent = snakeHighScore;
+            
+            createFood();
+        }
+        
+        function createFood() {
+            food = {
+                x: Math.floor(Math.random() * (snakeGame.width / 10)) * 10,
+                y: Math.floor(Math.random() * (snakeGame.height / 10)) * 10
+            };
+            
+            // Make sure food doesn't spawn on snake
+            for (let segment of snake) {
+                if (segment.x === food.x && segment.y === food.y) {
+                    createFood();
+                    return;
+                }
+            }
+        }
+        
+        function startSnakeGame() {
+            initSnakeGame();
+            snakePaused = false;
+            snakeGameLoop = setInterval(updateSnake, 100);
+        }
+        
+        function resetSnakeGame() {
+            clearInterval(snakeGameLoop);
+            startSnakeGame();
+        }
+        
+        function toggleSnakePause() {
+            snakePaused = !snakePaused;
+            if (!snakePaused) {
+                snakeGameLoop = setInterval(updateSnake, 100);
+            } else {
+                clearInterval(snakeGameLoop);
+            }
+        }
+        
+        function updateSnake() {
+            if (snakePaused) return;
+            
+            if (gameOver()) {
+                clearInterval(snakeGameLoop);
+                alert('GAME OVER');
+                return;
+            }
+            
+            // Move snake
+            const head = {x: snake[0].x + dx, y: snake[0].y + dy};
+            snake.unshift(head);
+            
+            // Check if snake ate food
+            if (head.x === food.x && head.y === food.y) {
+                snakeScore++;
+                document.getElementById('snakeScore').textContent = snakeScore;
+                
+                if (snakeScore > snakeHighScore) {
+                    snakeHighScore = snakeScore;
+                    document.getElementById('snakeHighScore').textContent = snakeHighScore;
+                    localStorage.setItem('snakeHighScore', snakeHighScore);
+                }
+                
+                createFood();
+            } else {
+                snake.pop(); // Remove tail if no food eaten
+            }
+            
+            // Clear canvas
+            snakeCtx.fillStyle = '#000';
+            snakeCtx.fillRect(0, 0, snakeGame.width, snakeGame.height);
+            
+            // Draw food
+            snakeCtx.fillStyle = '#ff0066';
+            snakeCtx.fillRect(food.x, food.y, 10, 10);
+            
+            // Draw snake
+            for (let i = 0; i < snake.length; i++) {
+                snakeCtx.fillStyle = i === 0 ? '#00cc33' : '#00ff41';
+                snakeCtx.fillRect(snake[i].x, snake[i].y, 10, 10);
+                snakeCtx.strokeStyle = '#003300';
+                snakeCtx.strokeRect(snake[i].x, snake[i].y, 10, 10);
+            }
+        }
+        
+        function gameOver() {
+            // Check wall collision
+            if (
+                snake[0].x < 0 ||
+                snake[0].x >= snakeGame.width ||
+                snake[0].y < 0 ||
+                snake[0].y >= snakeGame.height
+            ) {
+                return true;
+            }
+            
+            // Check self collision
+            for (let i = 1; i < snake.length; i++) {
+                if (snake[i].x === snake[0].x && snake[i].y === snake[0].y) {
+                    return true;
+                }
+            }
+            
+            return false;
+        }
+        
+        // Snake controls
+        document.addEventListener('keydown', function(e) {
+            if (currentGame !== 'snake') return;
+            
+            const key = e.key;
+            const goingUp = dy === -10;
+            const goingDown = dy === 10;
+            const goingLeft = dx === -10;
+            const goingRight = dx === 10;
+            
+            if (key === 'ArrowUp' && !goingDown) {
+                dx = 0;
+                dy = -10;
+            } else if (key === 'ArrowDown' && !goingUp) {
+                dx = 0;
+                dy = 10;
+            } else if (key === 'ArrowLeft' && !goingRight) {
+                dx = -10;
+                dy = 0;
+            } else if (key === 'ArrowRight' && !goingLeft) {
+                dx = 10;
+                dy = 0;
+            }
+        });
+
+        // ======================
+        // TETRIS GAME IMPLEMENTATION
+        // ======================
+        let tetrisGame, tetrisCtx;
+        let tetrisAnimationId;
+        let tetrisPaused = false;
+        let tetrisScore = 0;
+        let tetrisLevel = 1;
+        let tetrisLines = 0;
+        const COLS = 10;
+        const ROWS = 20;
+        const BLOCK_SIZE = 30;
+        let board = createBoard();
+        let piece = null;
+        let nextPiece = null;
+        let dropStart = 0;
+        
+        // Tetromino shapes
+        const SHAPES = [
+            [[1, 1, 1, 1]], // I
+            [[1, 1], [1, 1]], // O
+            [[0, 1, 0], [1, 1, 1]], // T
+            [[1, 1, 0], [0, 1, 1]], // Z
+            [[0, 1, 1], [1, 1, 0]], // S
+            [[1, 0, 0], [1, 1, 1]], // L
+            [[0, 0, 1], [1, 1, 1]]  // J
+        ];
+        
+        const COLORS = [
+            '#00ffff', '#ffff00', '#aa00ff', '#ff0000', 
+            '#00ff00', '#ff7f00', '#0000ff'
+        ];
+        
+        function createBoard() {
+            return Array.from(Array(ROWS), () => Array(COLS).fill(0));
+        }
+        
+        function initTetrisGame() {
+            tetrisGame = document.getElementById('tetrisGame');
+            tetrisCtx = tetrisGame.getContext('2d');
+            tetrisGame.width = COLS * BLOCK_SIZE;
+            tetrisGame.height = ROWS * BLOCK_SIZE;
+            
+            // Reset stats
+            tetrisScore = 0;
+            tetrisLevel = 1;
+            tetrisLines = 0;
+            document.getElementById('tetrisScore').textContent = tetrisScore;
+            document.getElementById('tetrisLevel').textContent = tetrisLevel;
+            document.getElementById('tetrisLines').textContent = tetrisLines;
+            
+            board = createBoard();
+            piece = null;
+            nextPiece = null;
+            dropStart = performance.now();
+            
+            // Create first piece
+            newPiece();
+        }
+        
+        function newPiece() {
+            if (!nextPiece) {
+                nextPiece = {
+                    shape: randomShape(),
+                    x: Math.floor(COLS / 2) - 1,
+                    y: 0
+                };
+            }
+            
+            piece = nextPiece;
+            nextPiece = {
+                shape: randomShape(),
+                x: Math.floor(COLS / 2) - 1,
+                y: 0
+            };
+            
+            // Game over if collision immediately
+            if (collision()) {
+                alert('GAME OVER');
+                initTetrisGame();
+            }
+        }
+        
+        function randomShape() {
+            return SHAPES[Math.floor(Math.random() * SHAPES.length)];
+        }
+        
+        function drawPiece() {
+            piece.shape.forEach((row, y) => {
+                row.forEach((value, x) => {
+                    if (value) {
+                        tetrisCtx.fillStyle = COLORS[SHAPES.indexOf(piece.shape)];
+                        tetrisCtx.fillRect(
+                            (piece.x + x) * BLOCK_SIZE,
+                            (piece.y + y) * BLOCK_SIZE,
+                            BLOCK_SIZE, BLOCK_SIZE
+                        );
+                        tetrisCtx.strokeStyle = '#000';
+                        tetrisCtx.strokeRect(
+                            (piece.x + x) * BLOCK_SIZE,
+                            (piece.y + y) * BLOCK_SIZE,
+                            BLOCK_SIZE, BLOCK_SIZE
+                        );
+                    }
+                });
+            });
+        }
+        
+        function drawBoard() {
+            board.forEach((row, y) => {
+                row.forEach((value, x) => {
+                    if (value) {
+                        tetrisCtx.fillStyle = COLORS[value - 1];
+                        tetrisCtx.fillRect(
+                            x * BLOCK_SIZE,
+                            y * BLOCK_SIZE,
+                            BLOCK_SIZE, BLOCK_SIZE
+                        );
+                        tetrisCtx.strokeStyle = '#000';
+                        tetrisCtx.strokeRect(
+                            x * BLOCK_SIZE,
+                            y * BLOCK_SIZE,
+                            BLOCK_SIZE, BLOCK_SIZE
+                        );
+                    }
+                });
+            });
+        }
+        
+        function collision() {
+            for (let y = 0; y < piece.shape.length; y++) {
+                for (let x = 0; x < piece.shape[y].length; x++) {
+                    if (
+                        piece.shape[y][x] !== 0 &&
+                        (board[y + piece.y] === undefined ||
+                         board[y + piece.y][x + piece.x] === undefined ||
+                         board[y + piece.y][x + piece.x] !== 0)
+                    ) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        
+        function rotate() {
+            const originalShape = piece.shape;
+            const N = piece.shape.length;
+            
+            // Transpose matrix
+            for (let y = 0; y < N; y++) {
+                for (let x = 0; x < y; x++) {
+                    [piece.shape[x][y], piece.shape[y][x]] = 
+                    [piece.shape[y][x], piece.shape[x][y]];
+                }
+            }
+            
+            // Reverse each row
+            for (let y = 0; y < N; y++) {
+                piece.shape[y].reverse();
+            }
+            
+            // If rotation causes collision, revert
+            if (collision()) {
+                piece.shape = originalShape;
+            }
+        }
+        
+        function lock() {
+            piece.shape.forEach((row, y) => {
+                row.forEach((value, x) => {
+                    if (value) {
+                        board[y + piece.y][x + piece.x] = SHAPES.indexOf(piece.shape) + 1;
+                    }
+                });
+            });
+            
+            // Check for completed lines
+            const lines = checkLines();
+            if (lines > 0) {
+                tetrisLines += lines;
+                tetrisScore += lines === 1 ? 100 * tetrisLevel : 
+                              lines === 2 ? 300 * tetrisLevel : 
+                              lines === 3 ? 500 * tetrisLevel : 
+                              800 * tetrisLevel;
+                tetrisLevel = Math.floor(tetrisLines / 10) + 1;
+                
+                document.getElementById('tetrisScore').textContent = tetrisScore;
+                document.getElementById('tetrisLevel').textContent = tetrisLevel;
+                document.getElementById('tetrisLines').textContent = tetrisLines;
+            }
+            
+            newPiece();
+        }
+        
+        function checkLines() {
+            let lines = 0;
+            
+            for (let y = ROWS - 1; y >= 0; y--) {
+                if (board[y].every(cell => cell !== 0)) {
+                    // Remove the line
+                    board.splice(y, 1);
+                    // Add new empty line at top
+                    board.unshift(Array(COLS).fill(0));
+                    lines++;
+                    y++; // Check same row again
+                }
+            }
+            
+            return lines;
+        }
+        
+        function startTetrisGame() {
+            initTetrisGame();
+            tetrisPaused = false;
+            tetrisAnimationId = requestAnimationFrame(updateTetris);
+        }
+        
+        function resetTetrisGame() {
+            cancelAnimationFrame(tetrisAnimationId);
+            startTetrisGame();
+        }
+        
+        function toggleTetrisPause() {
+            tetrisPaused = !tetrisPaused;
+            if (!tetrisPaused) {
+                dropStart = performance.now();
+                tetrisAnimationId = requestAnimationFrame(updateTetris);
+            }
+        }
+        
+        function updateTetris(now = 0) {
+            if (tetrisPaused) return;
+            
+            const deltaTime = now - dropStart;
+            const speed = 1000 - (tetrisLevel * 100 > 800 ? 800 : tetrisLevel * 100);
+            
+            if (deltaTime > speed) {
+                drop();
+                dropStart = now;
+            }
+            
+            // Clear canvas
+            tetrisCtx.fillStyle = '#000';
+            tetrisCtx.fillRect(0, 0, tetrisGame.width, tetrisGame.height);
+            
+            // Draw board
+            drawBoard();
+            
+            // Draw current piece
+            drawPiece();
+            
+            tetrisAnimationId = requestAnimationFrame(updateTetris);
+        }
+        
+        function drop() {
+            piece.y++;
+            if (collision()) {
+                piece.y--;
+                lock();
+            }
+        }
+        
+        function movePiece(dir) {
+            piece.x += dir;
+            if (collision()) {
+                piece.x -= dir;
+            }
+        }
+        
+        // Tetris controls
+        document.addEventListener('keydown', function(e) {
+            if (currentGame !== 'tetris') return;
+            
+            if (e.key === 'ArrowLeft') {
+                movePiece(-1);
+            } else if (e.key === 'ArrowRight') {
+                movePiece(1);
+            } else if (e.key === 'ArrowDown') {
+                drop();
+            } else if (e.key === 'ArrowUp') {
+                rotate();
+            }
+        });
+
+        // ======================
+        // PAC-MAN GAME IMPLEMENTATION
+        // ======================
+        let pacmanGame, pacmanCtx;
+        let pacmanAnimationId;
+        let pacmanPaused = false;
+        let pacmanScore = 0;
+        let pacmanLives = 3;
+        let pacmanLevel = 1;
+        
+        // Game elements
+        let pacman = { x: 0, y: 0, radius: 15, speed: 2, dir: 'right', nextDir: 'right' };
+        let ghosts = [];
+        let pellets = [];
+        let powerPellets = [];
+        const TILE_SIZE = 20;
+        
+        // Maze layout (1 = wall, 0 = path, 2 = pellet, 3 = power pellet)
+        const MAZE = [
+            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+            [1,2,2,2,2,2,2,2,2,1,1,2,2,2,2,2,2,2,2,1],
+            [1,2,1,1,2,1,1,1,2,1,1,2,1,1,1,2,1,1,2,1],
+            [1,3,1,1,2,1,1,1,2,1,1,2,1,1,1,2,1,1,3,1],
+            [1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1],
+            [1,2,1,1,2,1,2,1,1,1,1,1,1,2,1,2,1,1,2,1],
+            [1,2,2,2,2,1,2,2,2,1,1,2,2,2,1,2,2,2,2,1],
+            [1,1,1,1,2,1,1,1,2,1,1,2,1,1,1,2,1,1,1,1],
+            [0,0,0,1,2,1,2,2,2,2,2,2,2,2,1,2,1,0,0,0],
+            [1,1,1,1,2,1,2,1,1,0,0,1,1,2,1,2,1,1,1,1],
+            [2,2,2,2,2,2,2,1,0,0,0,0,1,2,2,2,2,2,2,2],
+            [1,1,1,1,2,1,2,1,1,1,1,1,1,2,1,2,1,1,1,1],
+            [0,0,0,1,2,1,2,2,2,2,2,2,2,2,1,2,1,0,0,0],
+            [1,1,1,1,2,1,2,1,1,1,1,1,1,2,1,2,1,1,1,1],
+            [1,2,2,2,2,2,2,2,2,1,1,2,2,2,2,2,2,2,2,1],
+            [1,2,1,1,2,1,1,1,2,1,1,2,1,1,1,2,1,1,2,1],
+            [1,3,2,1,2,2,2,2,2,2,2,2,2,2,2,2,1,2,3,1],
+            [1,1,2,1,2,1,2,1,1,1,1,1,2,1,2,1,1,2,1,1],
+            [1,2,2,2,2,1,2,2,2,1,1,2,2,1,2,2,2,2,2,1],
+            [1,2,1,1,1,1,1,1,2,1,1,2,1,1,1,1,1,1,2,1],
+            [1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1],
+            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+        ];
+        
+        function initPacmanGame() {
+            pacmanGame = document.getElementById('pacmanGame');
+            pacmanCtx = pacmanGame.getContext('2d');
+            pacmanGame.width = MAZE[0].length * TILE_SIZE;
+            pacmanGame.height = MAZE.length * TILE_SIZE;
+            
+            // Reset stats
+            pacmanScore = 0;
+            pacmanLives = 3;
+            pacmanLevel = 1;
+            document.getElementById('pacmanScore').textContent = pacmanScore;
+            document.getElementById('pacmanLives').textContent = pacmanLives;
+            document.getElementById('pacmanLevel').textContent = pacmanLevel;
+            
+            // Initialize game elements
+            initMaze();
+            initPacman();
+            initGhosts();
+        }
+        
+        function initMaze() {
+            pellets = [];
+            powerPellets = [];
+            
+            for (let y = 0; y < MAZE.length; y++) {
+                for (let x = 0; x < MAZE[y].length; x++) {
+                    if (MAZE[y][x] === 2) {
+                        pellets.push({ x, y });
+                    } else if (MAZE[y][x] === 3) {
+                        powerPellets.push({ x, y });
+                    }
+                }
+            }
+        }
+        
+        function initPacman() {
+            // Find starting position (first 0 in maze)
+            for (let y = 0; y < MAZE.length; y++) {
+                for (let x = 0; x < MAZE[y].length; x++) {
+                    if (MAZE[y][x] === 0) {
+                        pacman.x = x * TILE_SIZE + TILE_SIZE / 2;
+                        pacman.y = y * TILE_SIZE + TILE_SIZE / 2;
+                        pacman.dir = 'right';
+                        pacman.nextDir = 'right';
+                        return;
+                    }
+                }
+            }
+        }
+        
+        function initGhosts() {
+            ghosts = [];
+            // Create 4 ghosts at specific positions
+            const ghostPositions = [
+                { x: 9, y: 9, color: '#ff0000', name: 'Blinky' },
+                { x: 9, y: 10, color: '#ffb8ff', name: 'Pinky' },
+                { x: 8, y: 10, color: '#00ffff', name: 'Inky' },
+                { x: 10, y: 10, color: '#ffb852', name: 'Clyde' }
+            ];
+            
+            ghostPositions.forEach(ghost => {
+                ghosts.push({
+                    x: ghost.x * TILE_SIZE + TILE_SIZE / 2,
+                    y: ghost.y * TILE_SIZE + TILE_SIZE / 2,
+                    color: ghost.color,
+                    name: ghost.name,
+                    speed: 1,
+                    mode: 'chase',
+                    dir: 'left'
+                });
+            });
+        }
+        
+        function drawMaze() {
+            pacmanCtx.fillStyle = '#000';
+            pacmanCtx.fillRect(0, 0, pacmanGame.width, pacmanGame.height);
+            
+            // Draw walls
+            pacmanCtx.fillStyle = '#0000ff';
+            for (let y = 0; y < MAZE.length; y++) {
+                for (let x = 0; x < MAZE[y].length; x++) {
+                    if (MAZE[y][x] === 1) {
+                        pacmanCtx.fillRect(
+                            x * TILE_SIZE,
+                            y * TILE_SIZE,
+                            TILE_SIZE, TILE_SIZE
+                        );
+                    }
+                }
+            }
+            
+            // Draw pellets
+            pacmanCtx.fillStyle = '#ffff00';
+            pellets.forEach(pellet => {
+                pacmanCtx.beginPath();
+                pacmanCtx.arc(
+                    pellet.x * TILE_SIZE + TILE_SIZE / 2,
+                    pellet.y * TILE_SIZE + TILE_SIZE / 2,
+                    3, 0, Math.PI * 2
+                );
+                pacmanCtx.fill();
+            });
+            
+            // Draw power pellets
+            pacmanCtx.fillStyle = '#ffff00';
+            powerPellets.forEach(pellet => {
+                pacmanCtx.beginPath();
+                pacmanCtx.arc(
+                    pellet.x * TILE_SIZE + TILE_SIZE / 2,
+                    pellet.y * TILE_SIZE + TILE_SIZE / 2,
+                    8, 0, Math.PI * 2
+                );
+                pacmanCtx.fill();
+            });
+        }
+        
+        function drawPacman() {
+            pacmanCtx.fillStyle = '#ffff00';
+            pacmanCtx.beginPath();
+            
+            let startAngle, endAngle;
+            switch(pacman.dir) {
+                case 'right':
+                    startAngle = 0.2 * Math.PI;
+                    endAngle = 1.8 * Math.PI;
+                    break;
+                case 'down':
+                    startAngle = 0.7 * Math.PI;
+                    endAngle = 2.3 * Math.PI;
+                    break;
+                case 'left':
+                    startAngle = 1.2 * Math.PI;
+                    endAngle = 2.8 * Math.PI;
+                    break;
+                case 'up':
+                    startAngle = 1.7 * Math.PI;
+                    endAngle = 3.3 * Math.PI;
+                    break;
+            }
+            
+            pacmanCtx.arc(
+                pacman.x,
+                pacman.y,
+                pacman.radius,
+                startAngle,
+                endAngle
+            );
+            pacmanCtx.lineTo(pacman.x, pacman.y);
+            pacmanCtx.fill();
+        }
+        
+        function drawGhosts() {
+            ghosts.forEach(ghost => {
+                pacmanCtx.fillStyle = ghost.color;
+                
+                // Ghost body
+                pacmanCtx.beginPath();
+                pacmanCtx.arc(
+                    ghost.x,
+                    ghost.y - 5,
+                    ghost.speed === 1 ? 15 : 10,
+                    0,
+                    Math.PI
+                );
+                pacmanCtx.lineTo(ghost.x - 15, ghost.y + 10);
+                
+                // Ghost feet
+                for (let i = 0; i < 3; i++) {
+                    pacmanCtx.lineTo(ghost.x - 15 + i * 10, ghost.y + 5);
+                    pacmanCtx.lineTo(ghost.x - 10 + i * 10, ghost.y + 10);
+                }
+                
+                pacmanCtx.lineTo(ghost.x + 15, ghost.y + 10);
+                pacmanCtx.lineTo(ghost.x + 15, ghost.y - 5);
+                pacmanCtx.fill();
+                
+                // Ghost eyes
+                pacmanCtx.fillStyle = '#ffffff';
+                pacmanCtx.beginPath();
+                pacmanCtx.arc(ghost.x - 5, ghost.y - 5, 4, 0, Math.PI * 2);
+                pacmanCtx.fill();
+                pacmanCtx.beginPath();
+                pacmanCtx.arc(ghost.x + 5, ghost.y - 5, 4, 0, Math.PI * 2);
+                pacmanCtx.fill();
+                
+                pacmanCtx.fillStyle = '#0000ff';
+                pacmanCtx.beginPath();
+                pacmanCtx.arc(ghost.x - 5, ghost.y - 5, 2, 0, Math.PI * 2);
+                pacmanCtx.fill();
+                pacmanCtx.beginPath();
+                pacmanCtx.arc(ghost.x + 5, ghost.y - 5, 2, 0, Math.PI * 2);
+                pacmanCtx.fill();
+            });
+        }
+        
+        function movePacman() {
+            let newX = pacman.x;
+            let newY = pacman.y;
+            
+            // Try to change direction if possible
+            if (pacman.nextDir !== pacman.dir) {
+                let canChange = false;
+                let testX = pacman.x;
+                let testY = pacman.y;
+                
+                switch(pacman.nextDir) {
+                    case 'up':
+                        testY -= pacman.speed;
+                        break;
+                    case 'down':
+                        testY += pacman.speed;
+                        break;
+                    case 'left':
+                        testX -= pacman.speed;
+                        break;
+                    case 'right':
+                        testX += pacman.speed;
+                        break;
+                }
+                
+                // Check if new direction is valid
+                if (!checkWallCollision(testX, testY)) {
+                    pacman.dir = pacman.nextDir;
+                }
+            }
+            
+            // Move in current direction
+            switch(pacman.dir) {
+                case 'up':
+                    newY -= pacman.speed;
+                    break;
+                case 'down':
+                    newY += pacman.speed;
+                    break;
+                case 'left':
+                    newX -= pacman.speed;
+                    break;
+                case 'right':
+                    newX += pacman.speed;
+                    break;
+            }
+            
+            // Check wall collision
+            if (!checkWallCollision(newX, newY)) {
+                pacman.x = newX;
+                pacman.y = newY;
+            }
+            
+            // Wrap around tunnel
+            if (pacman.x < 0) pacman.x = pacmanGame.width;
+            if (pacman.x > pacmanGame.width) pacman.x = 0;
+            
+            // Check pellet collision
+            checkPelletCollision();
+        }
+        
+        function checkWallCollision(x, y) {
+            // Convert position to grid coordinates
+            const gridX = Math.floor(x / TILE_SIZE);
+            const gridY = Math.floor(y / TILE_SIZE);
+            
+            // Check if out of bounds
+            if (gridX < 0 || gridX >= MAZE[0].length || gridY < 0 || gridY >= MAZE.length) {
+                return false;
+            }
+            
+            // Check if wall
+            return MAZE[gridY][gridX] === 1;
+        }
+        
+        function checkPelletCollision() {
+            const gridX = Math.floor(pacman.x / TILE_SIZE);
+            const gridY = Math.floor(pacman.y / TILE_SIZE);
+            
+            // Check regular pellets
+            for (let i = pellets.length - 1; i >= 0; i--) {
+                if (pellets[i].x === gridX && pellets[i].y === gridY) {
+                    pellets.splice(i, 1);
+                    pacmanScore += 10;
+                    document.getElementById('pacmanScore').textContent = pacmanScore;
+                    
+                    // Check if all pellets eaten
+                    if (pellets.length === 0 && powerPellets.length === 0) {
+                        levelComplete();
+                    }
+                    return;
+                }
+            }
+            
+            // Check power pellets
+            for (let i = powerPellets.length - 1; i >= 0; i--) {
+                if (powerPellets[i].x === gridX && powerPellets[i].y === gridY) {
+                    powerPellets.splice(i, 1);
+                    pacmanScore += 50;
+                    document.getElementById('pacmanScore').textContent = pacmanScore;
+                    
+                    // Make ghosts vulnerable
+                    ghosts.forEach(ghost => {
+                        ghost.speed = 0.5;
+                        ghost.color = '#0000ff';
+                    });
+                    
+                    setTimeout(() => {
+                        ghosts.forEach(ghost => {
+                            ghost.speed = 1;
+                            ghost.color = ghost.name === 'Blinky' ? '#ff0000' :
+                                          ghost.name === 'Pinky' ? '#ffb8ff' :
+                                          ghost.name === 'Inky' ? '#00ffff' : '#ffb852';
+                        });
+                    }, 5000);
+                    
+                    // Check if all pellets eaten
+                    if (pellets.length === 0 && powerPellets.length === 0) {
+                        levelComplete();
+                    }
+                    return;
+                }
+            }
+        }
+        
+        function moveGhosts() {
+            ghosts.forEach(ghost => {
+                // Simple AI - move toward pacman
+                const directions = [];
+                
+                // Get possible directions
+                if (!checkWallCollision(ghost.x, ghost.y - ghost.speed)) directions.push('up');
+                if (!checkWallCollision(ghost.x, ghost.y + ghost.speed)) directions.push('down');
+                if (!checkWallCollision(ghost.x - ghost.speed, ghost.y)) directions.push('left');
+                if (!checkWallCollision(ghost.x + ghost.speed, ghost.y)) directions.push('right');
+                
+                // Remove opposite direction to prevent 180 turns
+                const oppositeDir = {
+                    up: 'down',
+                    down: 'up',
+                    left: 'right',
+                    right: 'left'
+                };
+                
+                const filteredDirs = directions.filter(dir => dir !== oppositeDir[ghost.dir]);
+                
+                // Choose direction
+                if (filteredDirs.length > 0) {
+                    // If ghost is vulnerable, move away from pacman
+                    if (ghost.speed === 0.5) {
+                        let bestDir = filteredDirs[0];
+                        let maxDistance = 0;
+                        
+                        filteredDirs.forEach(dir => {
+                            let dx = 0, dy = 0;
+                            switch(dir) {
+                                case 'up': dy = -1; break;
+                                case 'down': dy = 1; break;
+                                case 'left': dx = -1; break;
+                                case 'right': dx = 1; break;
+                            }
+                            
+                            const newX = ghost.x + dx * 10;
+                            const newY = ghost.y + dy * 10;
+                            const distance = Math.sqrt(
+                                Math.pow(newX - pacman.x, 2) + 
+                                Math.pow(newY - pacman.y, 2)
+                            );
+                            
+                            if (distance > maxDistance) {
+                                maxDistance = distance;
+                                bestDir = dir;
+                            }
+                        });
+                        
+                        ghost.dir = bestDir;
+                    } else {
+                        // Otherwise move toward pacman
+                        let bestDir = filteredDirs[0];
+                        let minDistance = Infinity;
+                        
+                        filteredDirs.forEach(dir => {
+                            let dx = 0, dy = 0;
+                            switch(dir) {
+                                case 'up': dy = -1; break;
+                                case 'down': dy = 1; break;
+                                case 'left': dx = -1; break;
+                                case 'right': dx = 1; break;
+                            }
+                            
+                            const newX = ghost.x + dx * 10;
+                            const newY = ghost.y + dy * 10;
+                            const distance = Math.sqrt(
+                                Math.pow(newX - pacman.x, 2) + 
+                                Math.pow(newY - pacman.y, 2)
+                            );
+                            
+                            if (distance < minDistance) {
+                                minDistance = distance;
+                                bestDir = dir;
+                            }
+                        });
+                        
+                        ghost.dir = bestDir;
+                    }
+                }
+                
+                // Move ghost
+                switch(ghost.dir) {
+                    case 'up':
+                        ghost.y -= ghost.speed;
+                        break;
+                    case 'down':
+                        ghost.y += ghost.speed;
+                        break;
+                    case 'left':
+                        ghost.x -= ghost.speed;
+                        break;
+                    case 'right':
+                        ghost.x += ghost.speed;
+                        break;
+                }
+                
+                // Wrap around tunnel
+                if (ghost.x < 0) ghost.x = pacmanGame.width;
+                if (ghost.x > pacmanGame.width) ghost.x = 0;
+                
+                // Check collision with pacman
+                const distance = Math.sqrt(
+                    Math.pow(ghost.x - pacman.x, 2) + 
+                    Math.pow(ghost.y - pacman.y, 2)
+                );
+                
+                if (distance < pacman.radius + 15) {
+                    if (ghost.speed === 0.5) {
+                        // Ghost is vulnerable - pacman eats it
+                        ghost.x = 9 * TILE_SIZE + TILE_SIZE / 2;
+                        ghost.y = 10 * TILE_SIZE + TILE_SIZE / 2;
+                        ghost.speed = 1;
+                        ghost.color = ghost.name === 'Blinky' ? '#ff0000' :
+                                      ghost.name === 'Pinky' ? '#ffb8ff' :
+                                      ghost.name === 'Inky' ? '#00ffff' : '#ffb852';
+                        pacmanScore += 200;
+                        document.getElementById('pacmanScore').textContent = pacmanScore;
+                    } else {
+                        // Pacman loses a life
+                        pacmanLives--;
+                        document.getElementById('pacmanLives').textContent = pacmanLives;
+                        
+                        if (pacmanLives <= 0) {
+                            gameOver();
+                        } else {
+                            // Reset positions
+                            initPacman();
+                            initGhosts();
+                        }
+                    }
+                }
+            });
+        }
+        
+        function levelComplete() {
+            pacmanLevel++;
+            document.getElementById('pacmanLevel').textContent = pacmanLevel;
+            initMaze();
+            initPacman();
+            initGhosts();
+        }
+        
+        function gameOver() {
+            alert('GAME OVER');
+            initPacmanGame();
+        }
+        
+        function startPacmanGame() {
+            initPacmanGame();
+            pacmanPaused = false;
+            pacmanAnimationId = requestAnimationFrame(updatePacman);
+        }
+        
+        function resetPacmanGame() {
+            cancelAnimationFrame(pacmanAnimationId);
+            startPacmanGame();
+        }
+        
+        function togglePacmanPause() {
+            pacmanPaused = !pacmanPaused;
+            if (!pacmanPaused) {
+                pacmanAnimationId = requestAnimationFrame(updatePacman);
+            }
+        }
+        
+        function updatePacman() {
+            if (pacmanPaused) return;
+            
+            // Clear canvas
+            drawMaze();
+            
+            // Move and draw game elements
+            movePacman();
+            moveGhosts();
+            drawPacman();
+            drawGhosts();
+            
+            pacmanAnimationId = requestAnimationFrame(updatePacman);
+        }
+        
+        // Pac-Man controls
+        document.addEventListener('keydown', function(e) {
+            if (currentGame !== 'pacman') return;
+            
+            switch(e.key) {
+                case 'ArrowUp':
+                    pacman.nextDir = 'up';
+                    break;
+                case 'ArrowDown':
+                    pacman.nextDir = 'down';
+                    break;
+                case 'ArrowLeft':
+                    pacman.nextDir = 'left';
+                    break;
+                case 'ArrowRight':
+                    pacman.nextDir = 'right';
+                    break;
+            }
+        });
+
+        // ======================
+        // SPACE INVADERS GAME IMPLEMENTATION
+        // ======================
+        let invadersGame, invadersCtx;
+        let invadersAnimationId;
+        let invadersPaused = false;
+        let invadersScore = 0;
+        let invadersLives = 3;
+        let invadersLevel = 1;
+        
+        // Game elements
+        let player = { x: 0, y: 0, width: 40, height: 20, speed: 5 };
+        let bullets = [];
+        let enemies = [];
+        let enemyBullets = [];
+        let enemyDirection = 1;
+        let enemySpeed = 1;
+        let lastEnemyMove = 0;
+        let gameOverFlag = false;
+        
+        function initInvadersGame() {
+            invadersGame = document.getElementById('invadersGame');
+            invadersCtx = invadersGame.getContext('2d');
+            invadersGame.width = 500;
+            invadersGame.height = 500;
+            
+            // Reset stats
+            invadersScore = 0;
+            invadersLives = 3;
+            invadersLevel = 1;
+            document.getElementById('invadersScore').textContent = invadersScore;
+            document.getElementById('invadersLives').textContent = invadersLives;
+            document.getElementById('invadersLevel').textContent = invadersLevel;
+            
+            // Initialize player
+            player.x = invadersGame.width / 2 - player.width / 2;
+            player.y = invadersGame.height - player.height - 10;
+            
+            // Initialize enemies
+            createEnemies();
+            
+            // Clear bullets
+            bullets = [];
+            enemyBullets = [];
+            
+            gameOverFlag = false;
+            enemyDirection = 1;
+            enemySpeed = 1;
+        }
+        
+        function createEnemies() {
+            enemies = [];
+            const enemyWidth = 30;
+            const enemyHeight = 20;
+            const rows = 5;
+            const cols = 10;
+            const padding = 10;
+            
+            for (let r = 0; r < rows; r++) {
+                for (let c = 0; c < cols; c++) {
+                    enemies.push({
+                        x: c * (enemyWidth + padding) + 50,
+                        y: r * (enemyHeight + padding) + 50,
+                        width: enemyWidth,
+                        height: enemyHeight,
+                        alive: true,
+                        points: (rows - r) * 10
+                    });
+                }
+            }
+        }
+        
+        function drawPlayer() {
+            invadersCtx.fillStyle = '#00ff41';
+            invadersCtx.fillRect(player.x, player.y, player.width, player.height);
+        }
+        
+        function drawEnemies() {
+            enemies.forEach(enemy => {
+                if (enemy.alive) {
+                    invadersCtx.fillStyle = '#ff0066';
+                    invadersCtx.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
+                }
+            });
+        }
+        
+        function drawBullets() {
+            invadersCtx.fillStyle = '#00ff41';
+            bullets.forEach(bullet => {
+                invadersCtx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
+            });
+            
+            invadersCtx.fillStyle = '#ff0066';
+            enemyBullets.forEach(bullet => {
+                invadersCtx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
+            });
+        }
+        
+        function moveEnemies(timestamp) {
+            if (timestamp - lastEnemyMove > 1000 / enemySpeed) {
+                let shouldMoveDown = false;
+                
+                // Check if any enemy has hit the edge
+                for (const enemy of enemies) {
+                    if (enemy.alive) {
+                        if ((enemy.x + enemy.width + enemyDirection * 2 > invadersGame.width) || 
+                            (enemy.x + enemyDirection * 2 < 0)) {
+                            shouldMoveDown = true;
+                            break;
+                        }
+                    }
+                }
+                
+                if (shouldMoveDown) {
+                    enemyDirection *= -1;
+                    for (const enemy of enemies) {
+                        if (enemy.alive) {
+                            enemy.y += 10;
+                            
+                            // Check if enemies have reached the bottom
+                            if (enemy.y + enemy.height >= player.y) {
+                                gameOver();
+                                return;
+                            }
+                        }
+                    }
+                } else {
+                    for (const enemy of enemies) {
+                        if (enemy.alive) {
+                            enemy.x += enemyDirection * 2;
+                        }
+                    }
+                }
+                
+                // Enemy shooting
+                if (Math.random() < 0.02 && enemies.some(e => e.alive)) {
+                    // Find a random alive enemy to shoot from
+                    const aliveEnemies = enemies.filter(e => e.alive);
+                    const shooter = aliveEnemies[Math.floor(Math.random() * aliveEnemies.length)];
+                    
+                    enemyBullets.push({
+                        x: shooter.x + shooter.width / 2 - 2,
+                        y: shooter.y + shooter.height,
+                        width: 4,
+                        height: 10,
+                        speed: 3
+                    });
+                }
+                
+                lastEnemyMove = timestamp;
+            }
+        }
+        
+        function updateBullets() {
+            // Player bullets
+            for (let i = bullets.length - 1; i >= 0; i--) {
+                bullets[i].y -= bullets[i].speed;
+                
+                // Remove bullets that go off screen
+                if (bullets[i].y < 0) {
+                    bullets.splice(i, 1);
+                    continue;
+                }
+                
+                // Check for collisions with enemies
+                for (let j = enemies.length - 1; j >= 0; j--) {
+                    if (enemies[j].alive && checkCollision(bullets[i], enemies[j])) {
+                        enemies[j].alive = false;
+                        bullets.splice(i, 1);
+                        invadersScore += enemies[j].points;
+                        document.getElementById('invadersScore').textContent = invadersScore;
+                        
+                        // Increase speed as enemies are eliminated
+                        const aliveEnemies = enemies.filter(e => e.alive).length;
+                        enemySpeed = 1 + (1 - aliveEnemies / enemies.length) * 3;
+                        
+                        // Check level complete
+                        if (aliveEnemies === 0) {
+                            levelComplete();
+                        }
+                        
+                        break;
+                    }
+                }
+            }
+            
+            // Enemy bullets
+            for (let i = enemyBullets.length - 1; i >= 0; i--) {
+                enemyBullets[i].y += enemyBullets[i].speed;
+                
+                // Remove bullets that go off screen
+                if (enemyBullets[i].y > invadersGame.height) {
+                    enemyBullets.splice(i, 1);
+                    continue;
+                }
+                
+                // Check for collision with player
+                if (checkCollision(enemyBullets[i], player)) {
+                    enemyBullets.splice(i, 1);
+                    invadersLives--;
+                    document.getElementById('invadersLives').textContent = invadersLives;
+                    
+                    if (invadersLives <= 0) {
+                        gameOver();
+                    }
+                }
+            }
+        }
+        
+        function checkCollision(bullet, target) {
+            return bullet.x < target.x + target.width &&
+                   bullet.x + bullet.width > target.x &&
+                   bullet.y < target.y + target.height &&
+                   bullet.y + bullet.height > target.y;
+        }
+        
+        function levelComplete() {
+            invadersLevel++;
+            document.getElementById('invadersLevel').textContent = invadersLevel;
+            createEnemies();
+            enemySpeed = 1 + invadersLevel * 0.5;
+        }
+        
+        function gameOver() {
+            gameOverFlag = true;
+            cancelAnimationFrame(invadersAnimationId);
+            alert('GAME OVER');
+        }
+        
+        function startInvadersGame() {
+            initInvadersGame();
+            invadersPaused = false;
+            invadersAnimationId = requestAnimationFrame(updateInvaders);
+        }
+        
+        function resetInvadersGame() {
+            cancelAnimationFrame(invadersAnimationId);
+            startInvadersGame();
+        }
+        
+        function toggleInvadersPause() {
+            invadersPaused = !invadersPaused;
+            if (!invadersPaused) {
+                invadersAnimationId = requestAnimationFrame(updateInvaders);
+            }
+        }
+        
+        function updateInvaders(timestamp) {
+            if (invadersPaused || gameOverFlag) return;
+            
+            // Clear canvas
+            invadersCtx.fillStyle = '#000';
+            invadersCtx.fillRect(0, 0, invadersGame.width, invadersGame.height);
+            
+            // Update game elements
+            moveEnemies(timestamp);
+            updateBullets();
+            
+            // Draw game elements
+            drawPlayer();
+            drawEnemies();
+            drawBullets();
+            
+            invadersAnimationId = requestAnimationFrame(updateInvaders);
+        }
+        
+        // Space Invaders controls
+        document.addEventListener('keydown', function(e) {
+            if (currentGame !== 'invaders') return;
+            
+            if (e.key === 'ArrowLeft' && player.x > 0) {
+                player.x -= player.speed;
+            } else if (e.key === 'ArrowRight' && player.x < invadersGame.width - player.width) {
+                player.x += player.speed;
+            } else if (e.key === ' ' && bullets.length < 3) { // Spacebar (limit 3 bullets)
+                bullets.push({
+                    x: player.x + player.width / 2 - 2,
+                    y: player.y,
+                    width: 4,
+                    height: 10,
+                    speed: 7
+                });
+            }
         });
     </script>
 </body>
